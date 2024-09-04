@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{9ca6e590-4bcd-4b0b-9c89-75d4dd7cd79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject Components">
+      <UniqueIdentifier>{9e411612-665d-4074-8c16-25f211af5ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject Components\Collider Component">
+      <UniqueIdentifier>{600438fc-b009-406c-bb8a-ed58c322dfb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{daa76ade-094c-4706-aa5c-929d629d1e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{9b85f562-d787-49db-8d85-803fa7d8a7c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{d6bea946-37b6-4db1-bb2b-88576892734f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlexLibrary">
+      <UniqueIdentifier>{9042799a-1987-4f9d-8380-7c823f4e61b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlexLibrary\FlexMath">
+      <UniqueIdentifier>{e5b7c3d7-7c6d-4a1d-a766-e9ec5de07495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlexLibrary\FlexNet">
+      <UniqueIdentifier>{e6926f7f-d63a-4308-800a-18f8b9704dfa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject Components\BoxCollision.cpp">
+      <Filter>GameObject Components\Collider Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject Components\SphereCollision.cpp">
+      <Filter>GameObject Components\Collider Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Model.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Light.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EngineManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\ModelCreation.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SceneManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="FlexLibrary\FlexMath\FlexMath.cpp">
+      <Filter>FlexLibrary\FlexMath</Filter>
+    </ClCompile>
+    <ClCompile Include="FlexLibrary\FlexNet Client\FlexClient.cpp">
+      <Filter>FlexLibrary\FlexNet</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\WindowManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\EngineCamera.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EventCallback.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\BasicCube.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderManager.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Material.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ProjectDependencies\Includes\glad\glad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectDependencies\Includes\GLFW\glfw3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectDependencies\Includes\GLFW\glfw3native.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectDependencies\Includes\KHR\khrplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject Components\BoxCollision.h">
+      <Filter>GameObject Components\Collider Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject Components\SphereCollision.h">
+      <Filter>GameObject Components\Collider Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderInfo.h">
+      <Filter>GameObject Components\Collider Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Model.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\MeshData.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Light.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EngineManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ModelCreation.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SceneManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="FlexLibrary\FlexMath\FlexMath.h">
+      <Filter>FlexLibrary\FlexMath</Filter>
+    </ClInclude>
+    <ClInclude Include="FlexLibrary\FlexNet Client\ErrorHandler.h">
+      <Filter>FlexLibrary\FlexNet</Filter>
+    </ClInclude>
+    <ClInclude Include="FlexLibrary\FlexNet Client\FlexClient.h">
+      <Filter>FlexLibrary\FlexNet</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\WindowManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\EngineCamera.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventCallback.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\BasicCube.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderManager.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Material.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ProjectDependencies\Libraries\glfw3.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ProjectDependencies\Libraries\glfw3.lib" />
+    <Library Include="ProjectDependencies\Libraries\glfw3_mt.lib" />
+    <Library Include="ProjectDependencies\Libraries\glfw3dll.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Shader\Fragment_Shader.frag">
+      <Filter>Shader</Filter>
+    </Text>
+    <Text Include="Shader\Vertex_Shader.vert">
+      <Filter>Shader</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
