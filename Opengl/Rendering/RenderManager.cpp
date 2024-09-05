@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "ModelCreation.h"
 #include "../Engine/EngineManager.h"
+#include "../FlexLibrary/FlexTimer/Flextimer.h"
 
 void RenderManager::init_RenderManager()
 {
@@ -141,6 +142,7 @@ void RenderManager::load_MeshesFromFolder()
 	}
 	if (MeshMap.contains("Ball") == false)
 	{
+		//FlexTimer timer("Ball create");
 		FLXModel::create_Ball(MeshMap["Ball"], glm::vec3(0.f), 4);
 	}
 }

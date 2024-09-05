@@ -137,6 +137,11 @@ namespace FLXModel
 
 	void create_Ball(Mesh& mesh, const glm::vec3& color, int numberOfSubDiv)
 	{
+		int triangleAmount = 8 * std::pow(4, numberOfSubDiv);
+
+		mesh.Vertices.reserve(triangleAmount - 2);
+		mesh.Triangles.reserve(triangleAmount);
+
 		mesh.Vertices.emplace_back(glm::vec3(0.f, 0.f, 1.f), color);
 		mesh.Vertices.emplace_back(glm::vec3(1.f, 0.f, 0.f), color);
 		mesh.Vertices.emplace_back(glm::vec3(0.f, 1.f, 0.f), color);
@@ -158,7 +163,8 @@ namespace FLXModel
 			FLXMath::calculate_TriangleNormal(mesh.Vertices[triangle.FirstIndex],
 				mesh.Vertices[triangle.SecondIndex], mesh.Vertices[triangle.ThirdIndex]);
 		}
-
+		std::cout << "Vertices" << mesh.Vertices.size() << std::endl;
+		std::cout << "Indices: " << mesh.Triangles.size() << std::endl;
 		mesh.bind_Buffer(GL_STATIC_DRAW);
 	}
 

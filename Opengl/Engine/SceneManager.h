@@ -37,6 +37,7 @@ private:
 	EngineCamera ActiveEngineCamera;
 	BasicCube CubeObject;
 	BasicCube CubeObject2;
+	BasicCube CubeObject3;
 	//End of Temporary Code
 	Camera* SceneCamera = nullptr;
 

@@ -13,6 +13,8 @@ private:
 	Model Cube;
 	SphereCollision collider;
 	Event* PhysicsEvent = nullptr;
+	glm::vec3 testing = glm::vec3(0.f);
+	bool updatedPos = false;
 
 	void collision_Physics(GameObject* otherGameObject);
 };

@@ -36,6 +36,9 @@
     <Filter Include="FlexLibrary\FlexNet">
       <UniqueIdentifier>{e6926f7f-d63a-4308-800a-18f8b9704dfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FlexLibrary\FlexTimer">
+      <UniqueIdentifier>{fd0f2d7f-9f86-434e-b4e9-6ae21d8c893f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="Rendering\Material.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="FlexLibrary\FlexTimer\FlexTimer.cpp">
+      <Filter>FlexLibrary\FlexTimer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +198,9 @@
     </ClInclude>
     <ClInclude Include="Rendering\Material.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="FlexLibrary\FlexTimer\Flextimer.h">
+      <Filter>FlexLibrary\FlexTimer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

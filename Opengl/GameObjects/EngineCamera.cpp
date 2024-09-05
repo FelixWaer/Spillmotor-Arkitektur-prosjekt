@@ -4,6 +4,7 @@
 
 #include "../Engine/EngineManager.h"
 #include "../Engine/Input.h"
+#include "BasicCube.h"
 
 void EngineCamera::game_Start()
 {
@@ -63,6 +64,14 @@ void EngineCamera::input_DFunction()
 void EngineCamera::input_LMouseFunction()
 {
 	std::cout << "Mouse pressed" << std::endl;
+	BasicCube* tempBall = new BasicCube;
+
+	tempBall->init_GameObject();
+	tempBall->set_GameObjectPosition(get_GameObjectPosition());
+	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget());
+	tempBall->set_GameObjectSpeed(20.f);
+
+	Balls.emplace_back(tempBall);
 }
 
 void EngineCamera::input_ESCFunction()

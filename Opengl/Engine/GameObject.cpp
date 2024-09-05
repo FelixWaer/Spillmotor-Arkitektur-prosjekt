@@ -41,7 +41,7 @@ glm::vec3* GameObject::get_GameObjectPositionPtr()
 
 void GameObject::set_GameObjectVelocity(const glm::vec3& newVelocity)
 {
-	GameObjectVelocity += glm::normalize(newVelocity);
+	GameObjectVelocity = glm::normalize(newVelocity);
 }
 
 glm::vec3& GameObject::get_GameObjectVelocity()
@@ -64,7 +64,7 @@ void GameObject::set_GameObjectSpeed(float newSpeed)
 	GameObjectSpeed = newSpeed;
 }
 
-float GameObject::get_GameObjectSpeed()
+float& GameObject::get_GameObjectSpeed()
 {
 	return GameObjectSpeed;
 }

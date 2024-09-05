@@ -30,14 +30,32 @@ void BasicCube::game_Start()
 void BasicCube::tick(float deltaTime)
 {
 	GameObject::tick(deltaTime);
+
+	if (get_GameObjectPosition().x > 20.f || get_GameObjectPosition().x < -20.f)
+	{
+		get_GameObjectVelocity() *= -1;
+		get_GameObjectSpeed() *= 1.5f;
+	}
+	if (get_GameObjectPosition().y > 20.f || get_GameObjectPosition().y < -20.f)
+	{
+		get_GameObjectVelocity() *= -1;
+		get_GameObjectSpeed() *= 1.5f;
+	}
+	if (get_GameObjectPosition().z > 20.f || get_GameObjectPosition().z < -20.f)
+	{
+		get_GameObjectVelocity() *= -1;
+		get_GameObjectSpeed() *= 1.5f;
+	}
 }
 
 void BasicCube::collision_Physics(GameObject* otherGameObject)
 {
 	if (otherGameObject->has_Tag("Ball"))
 	{
-		//std::cout << "collided with ball" << std::endl;
-		set_GameObjectVelocity(otherGameObject->get_GameObjectPosition() - get_GameObjectPosition());
-		set_GameObjectSpeed(1.f);
+		glm::vec3 vector = otherGameObject->get_GameObjectPosition() - get_GameObjectPosition();
+		set_GameObjectVelocity(vector * -1.f);
+		//set_GameObjectSpeed(10.f);
+
+		//std::cout << "other POS: " << otherGameObject->get_GameObjectPosition().x << "this Pos:" << get_GameObjectPosition().x << std::endl;
 	}
 }

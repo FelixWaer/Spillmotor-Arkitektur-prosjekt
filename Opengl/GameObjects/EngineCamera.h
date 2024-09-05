@@ -4,6 +4,8 @@
 #include "../Engine/EventCallback.h"
 #include "../GameObject Components/SphereCollision.h"
 
+class BasicCube;
+
 class EngineCamera : public GameObject
 {
 public:
@@ -28,5 +30,6 @@ private:
 	Event* CollisionEvent = nullptr;
 
 	Camera ActiveCamera;
+	std::vector<BasicCube*> Balls;
 };
 

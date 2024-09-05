@@ -1,20 +1,24 @@
 #include "SceneManager.h"
 
-#include "glad/glad.h"
-
 #include "glm/glm.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
-
-#include "EngineManager.h"
 
 void SceneManager::begin_Scene()
 {
 	ActiveEngineCamera.init_GameObject();
 	CubeObject.init_GameObject();
+	CubeObject.set_GameObjectVelocity(glm::vec3(0.f, 1.f, 0.f));
+	CubeObject.set_GameObjectSpeed(10.f);
+
 	CubeObject2.init_GameObject();
-	CubeObject2.set_GameObjectPosition(glm::vec3(5.f, 0.f, 0.f));
+	CubeObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
 	CubeObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
-	CubeObject2.set_GameObjectSpeed(2.f);
+	CubeObject2.set_GameObjectSpeed(10.f);
+
+	CubeObject3.init_GameObject();
+	CubeObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
+	CubeObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
+	CubeObject3.set_GameObjectSpeed(10.f);
 
 	TestLight.init_Light();
 	TestLight.set_LightPosition(glm::vec3(0.f, 100.f, 0.f));
@@ -34,6 +38,15 @@ void SceneManager::begin_Scene()
 
 void SceneManager::tick_Scene(float deltaTime)
 {
+	while (GameObjectsToBeAdded.empty() == false)
+	{
+		GameObject* addedGameObject = GameObjectsToBeAdded.front();
+		GameObjectsToBeAdded.pop(),
+
+		addedGameObject->game_Start();
+		SceneGameObjects.emplace_back(addedGameObject);
+	}
+
 	check_Collision();
 	tick_GameObjects(deltaTime);
 }

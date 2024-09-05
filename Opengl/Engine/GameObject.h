@@ -22,7 +22,7 @@ public:
 	void set_GameObjectFront(const glm::vec3& newFront);
 	glm::vec3& get_GameObjectFront();
 	void set_GameObjectSpeed(float newSpeed);
-	float get_GameObjectSpeed();
+	float& get_GameObjectSpeed();
 	void add_Tag(const std::string& tag);
 	bool has_Tag(const std::string& tag);
 protected:
