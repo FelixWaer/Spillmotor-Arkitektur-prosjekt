@@ -54,7 +54,7 @@ void BasicCube::collision_Physics(GameObject* otherGameObject)
 	{
 		glm::vec3 vector = otherGameObject->get_GameObjectPosition() - get_GameObjectPosition();
 		set_GameObjectVelocity(vector * -1.f);
-		//set_GameObjectSpeed(10.f);
+		set_GameObjectSpeed(10.f);
 
 		//std::cout << "other POS: " << otherGameObject->get_GameObjectPosition().x << "this Pos:" << get_GameObjectPosition().x << std::endl;
 	}

@@ -8,17 +8,17 @@ void SceneManager::begin_Scene()
 	ActiveEngineCamera.init_GameObject();
 	CubeObject.init_GameObject();
 	CubeObject.set_GameObjectVelocity(glm::vec3(0.f, 1.f, 0.f));
-	CubeObject.set_GameObjectSpeed(10.f);
+	//CubeObject.set_GameObjectSpeed(10.f);
 
 	CubeObject2.init_GameObject();
 	CubeObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
 	CubeObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
-	CubeObject2.set_GameObjectSpeed(10.f);
+	//CubeObject2.set_GameObjectSpeed(10.f);
 
 	CubeObject3.init_GameObject();
 	CubeObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
 	CubeObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
-	CubeObject3.set_GameObjectSpeed(10.f);
+	//CubeObject3.set_GameObjectSpeed(10.f);
 
 	TestLight.init_Light();
 	TestLight.set_LightPosition(glm::vec3(0.f, 100.f, 0.f));
