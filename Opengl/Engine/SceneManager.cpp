@@ -6,19 +6,22 @@
 void SceneManager::begin_Scene()
 {
 	ActiveEngineCamera.init_GameObject();
-	CubeObject.init_GameObject();
-	CubeObject.set_GameObjectVelocity(glm::vec3(0.f, 1.f, 0.f));
+	SphereObject.init_GameObject();
+	SphereObject.set_GameObjectVelocity(glm::vec3(0.f, 1.f, 0.f));
 	//CubeObject.set_GameObjectSpeed(10.f);
 
-	CubeObject2.init_GameObject();
-	CubeObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
-	CubeObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
+	SphereObject2.init_GameObject();
+	SphereObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
+	SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
 	//CubeObject2.set_GameObjectSpeed(10.f);
 
-	CubeObject3.init_GameObject();
-	CubeObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
-	CubeObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
+	SphereObject3.init_GameObject();
+	SphereObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
+	SphereObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
 	//CubeObject3.set_GameObjectSpeed(10.f);
+
+	CubeObject.init_GameObject();
+	CubeObject.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
 
 	TestLight.init_Light();
 	TestLight.set_LightPosition(glm::vec3(0.f, 100.f, 0.f));
@@ -150,6 +153,21 @@ void SceneManager::check_Collision()
 			}
 		}
 	}
+
+	if (SceneSphereColliders.empty() == false && SceneBoxColliders.empty() == false)
+	{
+		for (size_t i = 0; i < SceneSphereColliders.size(); i++)
+		{
+			for (size_t j = 0; j < SceneBoxColliders.size(); j++)
+			{
+				if (calculate_BoxSphereCollision(*SceneBoxColliders[j], *SceneSphereColliders[i]) == true)
+				{
+					SceneBoxColliders[j]->call_CollisionEvent(SceneSphereColliders[i]);
+					SceneSphereColliders[i]->call_CollisionEvent(SceneBoxColliders[j]);
+				}
+			}
+		}
+	}
 }
 
 bool SceneManager::calculate_BoxCollision(glm::vec3 boxPos_1, glm::vec3 boxPos_2, float boxHeight_1, float boxWidth_1, float boxDepth_1, float boxHeight_2, float boxWidth_2, float boxDepth_2)
@@ -174,4 +192,30 @@ bool SceneManager::calculate_SphereCollision(glm::vec3 spherePos_1, glm::vec3 sp
 	{
 		return false;
 	}
+}
+
+bool SceneManager::calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider)
+{
+	glm::vec3 min = boxCollider.get_BoxPosition();
+	min.x -= boxCollider.BoxWidth;
+	min.y -= boxCollider.BoxHeight;
+	min.z -= boxCollider.BoxDepth;
+
+	glm::vec3 max = boxCollider.get_BoxPosition();
+	max.x += boxCollider.BoxWidth;
+	max.y += boxCollider.BoxHeight;
+	max.z += boxCollider.BoxDepth;
+
+	glm::vec3 closesPoint(0.f);
+
+	closesPoint = glm::clamp(sphereCollider.get_SpherePosition(), min, max);
+
+	float distance = glm::distance(sphereCollider.get_SpherePosition(), closesPoint);
+
+	if (distance <= sphereCollider.get_SphereRadius())
+	{
+		return true;
+	}
+
+	return false;
 }

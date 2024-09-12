@@ -4,7 +4,7 @@
 
 #include "../Engine/EngineManager.h"
 #include "../Engine/Input.h"
-#include "BasicCube.h"
+#include "BasicSphere.h"
 
 void EngineCamera::game_Start()
 {
@@ -64,7 +64,7 @@ void EngineCamera::input_DFunction()
 void EngineCamera::input_LMouseFunction()
 {
 	std::cout << "Mouse pressed" << std::endl;
-	BasicCube* tempBall = new BasicCube;
+	BasicSphere* tempBall = new BasicSphere;
 
 	tempBall->init_GameObject();
 	tempBall->set_GameObjectPosition(get_GameObjectPosition());

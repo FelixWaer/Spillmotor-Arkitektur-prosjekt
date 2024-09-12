@@ -101,7 +101,7 @@
     <ClCompile Include="Engine\EventCallback.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\BasicCube.cpp">
+    <ClCompile Include="GameObjects\BasicSphere.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\RenderManager.cpp">
@@ -112,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="FlexLibrary\FlexTimer\FlexTimer.cpp">
       <Filter>FlexLibrary\FlexTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\BasicCube.cpp">
+      <Filter>GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +193,7 @@
     <ClInclude Include="Engine\EventCallback.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\BasicCube.h">
+    <ClInclude Include="GameObjects\BasicSphere.h">
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\RenderManager.h">
@@ -201,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="FlexLibrary\FlexTimer\Flextimer.h">
       <Filter>FlexLibrary\FlexTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\BasicCube.h">
+      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

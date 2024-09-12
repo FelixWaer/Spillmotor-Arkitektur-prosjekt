@@ -5,11 +5,13 @@
 #include "GameObject.h"
 #include "../GameObject Components/BoxCollision.h"
 #include "../GameObject Components/SphereCollision.h"
-#include "../GameObjects/EngineCamera.h"
-#include "../GameObjects/BasicCube.h"
 #include "../Rendering/Model.h"
 #include "../Rendering/Camera.h"
 #include "../Rendering/Light.h"
+
+#include "../GameObjects/EngineCamera.h"
+#include "../GameObjects/BasicSphere.h"
+#include "../GameObjects/BasicCube.h"
 
 class SceneManager
 {
@@ -35,9 +37,13 @@ private:
 	//Start of Temporary Code
 	Light TestLight;
 	EngineCamera ActiveEngineCamera;
+
+
+	BasicSphere SphereObject;
+	BasicSphere SphereObject2;
+	BasicSphere SphereObject3;
+
 	BasicCube CubeObject;
-	BasicCube CubeObject2;
-	BasicCube CubeObject3;
 	//End of Temporary Code
 	Camera* SceneCamera = nullptr;
 
@@ -55,5 +61,6 @@ private:
 	void check_Collision();
 	bool calculate_BoxCollision(glm::vec3 boxPos_1, glm::vec3 boxPos_2, float boxHeight_1, float boxWidth_1, float boxDepth_1, float boxHeight_2, float boxWidth_2, float boxDepth_2);
 	bool calculate_SphereCollision(glm::vec3 spherePos_1, glm::vec3 spherePos_2, float sphereRadius_1, float sphereRadius_2);
+	static bool calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider);
 };
 

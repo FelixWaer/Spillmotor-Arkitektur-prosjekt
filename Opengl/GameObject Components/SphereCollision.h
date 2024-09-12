@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 
 class GameObject;
+class BoxCollision;
 class Model;
 class Event;
 
@@ -19,7 +20,7 @@ public:
 	GameObject* get_AttachedGameObject();
 
 	void call_CollisionEvent(SphereCollision* otherSphereCollider) const;
-
+	void call_CollisionEvent(BoxCollision* otherBoxCollider) const;
 private:
 	glm::vec3* SpherePosition = nullptr;
 	GameObject* AttachedGameObject = nullptr;

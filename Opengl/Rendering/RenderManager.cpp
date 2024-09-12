@@ -18,7 +18,7 @@ void RenderManager::init_RenderManager()
 	load_MeshesFromFolder();
 	load_TexturesFromFolder();
 
-	MaterialMap[tempBasicMaterial].HasTexture = true;
+	MaterialMap[tempBasicMaterial].HasTexture = false;
 	MaterialMap[tempBasicMaterial].Shininess = 64.f;
 	MaterialMap[tempBasicMaterial].SpecularStrength = 0.5f;
 }
@@ -143,7 +143,7 @@ void RenderManager::load_MeshesFromFolder()
 	if (MeshMap.contains("Ball") == false)
 	{
 		//FlexTimer timer("Ball create");
-		FLXModel::create_Ball(MeshMap["Ball"], glm::vec3(0.f), 4);
+		FLXModel::create_Ball(MeshMap["Ball"], glm::vec3(0.5f), 4);
 	}
 }
 

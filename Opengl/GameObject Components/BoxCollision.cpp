@@ -31,7 +31,7 @@ void BoxCollision::enable_BoxVisible(bool isVisible)
 		//BoxModel->draw_ModelAsLines(true);
 		BoxModel->attach_ToPosition(BoxPosition);
 		BoxModel->scale_Model(glm::vec3(BoxWidth, BoxHeight, BoxDepth));
-
+		BoxModel->set_ModelMesh("Cube");
 		return;
 	}
 	if (isVisible == false && BoxModel != nullptr)
@@ -70,6 +70,14 @@ void BoxCollision::call_CollisionEvent(BoxCollision* otherBoxCollider) const
 	if (CollisionEvent != nullptr)
 	{
 		CollisionEvent->Collision_Event(otherBoxCollider->get_AttachedGameObject());
+	}
+}
+
+void BoxCollision::call_CollisionEvent(SphereCollision* otherSphereCollider) const
+{
+	if (CollisionEvent != nullptr)
+	{
+		CollisionEvent->Collision_Event(otherSphereCollider->get_AttachedGameObject());
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 
 class GameObject;
+class SphereCollision;
 class Model;
 class Event;
 
@@ -24,6 +25,7 @@ public:
 	float BoxDepth = 0.f;
 
 	void call_CollisionEvent(BoxCollision* otherBoxCollider) const;
+	void call_CollisionEvent(SphereCollision* otherSphereCollider) const;
 private:
 	glm::vec3* BoxPosition = nullptr;
 	GameObject* AttachedGameObject = nullptr;
@@ -31,6 +33,6 @@ private:
 	bool Collision = true;
 
 	Event* CollisionEvent = nullptr;
-	Model* BoxModel;
+	Model* BoxModel = nullptr;
 };
 

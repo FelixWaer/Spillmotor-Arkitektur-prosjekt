@@ -163,6 +163,11 @@ namespace FLXModel
 			FLXMath::calculate_TriangleNormal(mesh.Vertices[triangle.FirstIndex],
 				mesh.Vertices[triangle.SecondIndex], mesh.Vertices[triangle.ThirdIndex]);
 		}
+		for (Vertex& vertex : mesh.Vertices)
+		{
+			vertex.Color = color;
+		}
+
 		std::cout << "Vertices" << mesh.Vertices.size() << std::endl;
 		std::cout << "Indices: " << mesh.Triangles.size() << std::endl;
 		mesh.bind_Buffer(GL_STATIC_DRAW);

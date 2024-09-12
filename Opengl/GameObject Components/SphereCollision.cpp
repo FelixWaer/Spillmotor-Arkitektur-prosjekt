@@ -73,3 +73,11 @@ void SphereCollision::call_CollisionEvent(SphereCollision* otherSphereCollider) 
 		CollisionEvent->Collision_Event(otherSphereCollider->get_AttachedGameObject());
 	}
 }
+
+void SphereCollision::call_CollisionEvent(BoxCollision* otherBoxCollider) const
+{
+	if (CollisionEvent != nullptr)
+	{
+		CollisionEvent->Collision_Event(otherBoxCollider->get_AttachedGameObject());
+	}
+}
