@@ -31,5 +31,5 @@ void BasicCube::tick(float deltaTime)
 
 void BasicCube::collision_Physics(GameObject* otherGameObject)
 {
-	std::cout << "ugga bugga " << std::endl;
+	
 }
