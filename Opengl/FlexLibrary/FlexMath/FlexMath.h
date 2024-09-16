@@ -13,5 +13,7 @@ namespace FLXMath
 
 	inline float calculate_Normal(const glm::vec3&& AB, const glm::vec3&& AC);
 
+	float calculate_AngleBetweenVectors(const glm::vec3& vectorA, const glm::vec3& vectorB);
+
 	inline void switch_YZ(glm::vec3& vector);
 }

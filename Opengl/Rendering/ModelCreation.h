@@ -6,7 +6,7 @@ class Mesh;
 
 namespace FLXModel
 {
-	void create_Cube(Mesh& model, const glm::vec3& color, bool reverseNormals = false);
+	void create_Cube(Mesh& mesh, const glm::vec3& color, bool reverseNormals = false);
 
 	void create_SphereLines(Mesh& lineModel, float radius, const glm::vec3& color);
 

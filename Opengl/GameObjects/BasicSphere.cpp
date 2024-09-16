@@ -1,6 +1,8 @@
 #include "BasicSphere.h"
 
+#include "BasicCube.h"
 #include "../Engine/EventCallback.h"
+#include "../FlexLibrary/FlexMath/FlexMath.h"0+pp
 
 void BasicSphere::game_Start()
 {
@@ -9,11 +11,8 @@ void BasicSphere::game_Start()
 	Cube.attach_ToGameObject(this);
 	//Set the mesh of the Model
 
-	/*Bind the model to a GameObject, so it will move with the GameObject*/
-	//testModel.bind_ToGameObject(this);
-
 	//Set position of the Model
-	Cube.set_ModelPosition(glm::vec3(0.f));
+	//Cube.set_ModelPosition(glm::vec3(0.f));
 
 	Cube.scale_Model(glm::vec3(1.f));
 
@@ -31,22 +30,15 @@ void BasicSphere::tick(float deltaTime)
 {
 	GameObject::tick(deltaTime);
 
-	//if (get_GameObjectPosition().x > 20.f || get_GameObjectPosition().x < -20.f)
-	//{
-	//	get_GameObjectVelocity() *= -1;
-	//}
-	//if (get_GameObjectPosition().y > 20.f || get_GameObjectPosition().y < -20.f)
-	//{
-	//	get_GameObjectVelocity() *= -1;
-	//}
-	//if (get_GameObjectPosition().z > 20.f || get_GameObjectPosition().z < -20.f)
-	//{
-	//	get_GameObjectVelocity() *= -1;
-	//}
 }
 
 void BasicSphere::collision_Physics(GameObject* otherGameObject)
 {
+	//if (HasCollided == true)
+	//{
+	//	return;
+	//}
+
 	if (otherGameObject->has_Tag("Ball"))
 	{
 		glm::vec3 vector = otherGameObject->get_GameObjectPosition() - get_GameObjectPosition();
@@ -57,6 +49,35 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject)
 	}
 	if (otherGameObject->has_Tag("Wall"))
 	{
-		
+		glm::vec3 direction = get_GameObjectVelocity();
+	/*	float testing = FLXMath::calculate_AngleBetweenVectors(static_cast<BasicCube*>(otherGameObject)->normal, direction);
+		float testing2 = FLXMath::calculate_AngleBetweenVectors(static_cast<BasicCube*>(otherGameObject)->normal2, direction);*/
+
+		glm::vec3 normalVector;
+
+		normalVector = static_cast<BasicCube*>(otherGameObject)->normal;
+
+		float dotProduct = glm::dot(get_GameObjectVelocity(), normalVector);
+		glm::vec3 test = normalVector * dotProduct;
+
+		test *= -2;
+		test += get_GameObjectVelocity();
+		set_GameObjectVelocity(test);
+
+
+		//glm::vec3 pos = glm::vec3(0.f, 0.f, -1.f);
+		//get_GameObjectPosition() += pos * collider.get_SphereRadius();
+
+
+		//float testDot = glm::dot(get_GameObjectPosition(), glm::vec3(0.f, 0.f, 1.f));
+		//float testDot2 = glm::dot(get_GameObjectPosition(), glm::vec3(1.f, 0.f, 0.f));
+		//std::cout << "same direction: " << testing << " Other Direction: " << testing2 << std::endl;
+		//glm::vec3 pos2 = glm::vec3(20.f, 0.f, 0.f);
+		//float angle = FLXMath::calculate_AngleBetweenVectors(pos, direction);
+		//float angle2 = FLXMath::calculate_AngleBetweenVectors(pos2, direction);
+		//std::cout << "angle between wall 1: " << angle << std::endl;
+		//std::cout << "angle between wall 2: " << angle2 << std::endl;
+
+		HasCollided = true;
 	}
 }

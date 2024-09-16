@@ -140,6 +140,10 @@ void RenderManager::load_MeshesFromFolder()
 	{
 		MeshMap["Cube"].create_CubeMesh();
 	}
+	if (MeshMap.contains("ReverseCube") == false)
+	{
+		FLXModel::create_Cube(MeshMap["ReverseCube"], glm::vec3(1.f), true);
+	}
 	if (MeshMap.contains("Ball") == false)
 	{
 		//FlexTimer timer("Ball create");

@@ -46,10 +46,20 @@ namespace FLXMath
 		return AB[0] * AC[2] - AC[0] * AB[2];
 	}
 
+	float calculate_AngleBetweenVectors(const glm::vec3& vectorA, const glm::vec3& vectorB)
+	{
+		float dotProduct = glm::dot(vectorA, vectorB);
+		float magnitudeA = static_cast<float>(sqrt(pow(vectorA.x, 2) + pow(vectorA.y, 2) + pow(vectorA.z, 2)));
+		float magnitudeB = static_cast<float>(sqrt(pow(vectorB.x, 2) + pow(vectorB.y, 2) + pow(vectorB.z, 2)));
+
+		return cos(dotProduct / magnitudeA * magnitudeB);
+	}
+
 	void switch_YZ(glm::vec3& vector)
 	{
 		float tempValue = vector.z;
 		vector.z = vector.y;
 		vector.y = tempValue;
 	}
+
 }

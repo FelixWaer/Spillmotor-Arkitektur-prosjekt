@@ -12,6 +12,7 @@
 #include "../GameObjects/EngineCamera.h"
 #include "../GameObjects/BasicSphere.h"
 #include "../GameObjects/BasicCube.h"
+#include "../GameObjects/LightCube.h"
 
 class SceneManager
 {
@@ -35,7 +36,7 @@ public:
 	void turnOff_DebugMode(bool turnOff);
 private:
 	//Start of Temporary Code
-	Light TestLight;
+	LightCube SceneLight;
 	EngineCamera ActiveEngineCamera;
 
 
@@ -43,7 +44,11 @@ private:
 	BasicSphere SphereObject2;
 	BasicSphere SphereObject3;
 
-	BasicCube CubeObject;
+	BasicCube Wall1;
+	BasicCube Wall2;
+	BasicCube Wall3;
+	BasicCube Wall4;
+	BasicCube Floor;
 	//End of Temporary Code
 	Camera* SceneCamera = nullptr;
 

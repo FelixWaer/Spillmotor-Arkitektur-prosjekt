@@ -6,26 +6,33 @@
 void SceneManager::begin_Scene()
 {
 	ActiveEngineCamera.init_GameObject();
-	SphereObject.init_GameObject();
-	SphereObject.set_GameObjectVelocity(glm::vec3(0.f, 1.f, 0.f));
+	//SphereObject.init_GameObject();
+	//SphereObject.set_GameObjectPosition(glm::vec3(0.f, 0.f, 1.f));
 	//CubeObject.set_GameObjectSpeed(10.f);
 
-	SphereObject2.init_GameObject();
-	SphereObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
-	SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
-	//CubeObject2.set_GameObjectSpeed(10.f);
+	//SphereObject2.init_GameObject();
+	//SphereObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
+	//SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
+	////CubeObject2.set_GameObjectSpeed(10.f);
 
-	SphereObject3.init_GameObject();
-	SphereObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
-	SphereObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
+	//SphereObject3.init_GameObject();
+	//SphereObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
+	//SphereObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
 	//CubeObject3.set_GameObjectSpeed(10.f);
 
-	CubeObject.init_GameObject();
-	CubeObject.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
+	Wall1.init_GameObject();
+	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 20.f));
+	Wall2.init_GameObject();
+	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -20.f));
+	Wall3.init_GameObject();
+	Wall3.set_GameObjectPosition(glm::vec3(20.f, 0.f, 0.f));
+	Wall3.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
+	Wall4.init_GameObject();
+	Wall4.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
+	Wall4.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
 
-	TestLight.init_Light();
-	TestLight.set_LightPosition(glm::vec3(0.f, 100.f, 0.f));
-	TestLight.set_LightColor(glm::vec3(1.f));
+	SceneLight.init_GameObject();
+	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 10.f, 0.f));
 
 	while (GameObjectsToBeAdded.empty() == false)
 	{

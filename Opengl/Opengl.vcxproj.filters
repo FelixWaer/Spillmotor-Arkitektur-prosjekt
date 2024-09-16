@@ -116,6 +116,9 @@
     <ClCompile Include="GameObjects\BasicCube.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\LightCube.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectDependencies\Includes\glad\glad.h">
@@ -206,6 +209,9 @@
       <Filter>FlexLibrary\FlexTimer</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\BasicCube.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\LightCube.h">
       <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>

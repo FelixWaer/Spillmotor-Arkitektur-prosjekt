@@ -8,12 +8,14 @@ class BasicCube : public GameObject
 public:
 	void game_Start() override;
 	void tick(float deltaTime) override;
+	glm::vec3 normal = glm::vec3(0.f);
+	glm::vec3 normal2 = glm::vec3(0.f);
 
-private:
 	Model BoxModel;
+private:
 	BoxCollision BoxCollider;
 	Event* PhysicsEvent = nullptr;
-
+	
 	void collision_Physics(GameObject* otherGameObject);
 };
 
