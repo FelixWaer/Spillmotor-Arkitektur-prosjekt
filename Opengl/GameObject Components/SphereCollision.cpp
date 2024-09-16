@@ -66,18 +66,18 @@ GameObject* SphereCollision::get_AttachedGameObject()
 	return AttachedGameObject;
 }
 
-void SphereCollision::call_CollisionEvent(SphereCollision* otherSphereCollider) const
+void SphereCollision::call_CollisionEvent(SphereCollision* otherSphereCollider, glm::vec3 hitPosition) const
 {
 	if (CollisionEvent != nullptr)
 	{
-		CollisionEvent->Collision_Event(otherSphereCollider->get_AttachedGameObject());
+		CollisionEvent->Collision_Event(otherSphereCollider->get_AttachedGameObject(), hitPosition);
 	}
 }
 
-void SphereCollision::call_CollisionEvent(BoxCollision* otherBoxCollider) const
+void SphereCollision::call_CollisionEvent(BoxCollision* otherBoxCollider, glm::vec3 hitPosition) const
 {
 	if (CollisionEvent != nullptr)
 	{
-		CollisionEvent->Collision_Event(otherBoxCollider->get_AttachedGameObject());
+		CollisionEvent->Collision_Event(otherBoxCollider->get_AttachedGameObject(), hitPosition);
 	}
 }

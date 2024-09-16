@@ -32,13 +32,8 @@ void BasicSphere::tick(float deltaTime)
 
 }
 
-void BasicSphere::collision_Physics(GameObject* otherGameObject)
+void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition)
 {
-	//if (HasCollided == true)
-	//{
-	//	return;
-	//}
-
 	if (otherGameObject->has_Tag("Ball"))
 	{
 		glm::vec3 vector = otherGameObject->get_GameObjectPosition() - get_GameObjectPosition();
@@ -53,12 +48,8 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject)
 	/*	float testing = FLXMath::calculate_AngleBetweenVectors(static_cast<BasicCube*>(otherGameObject)->normal, direction);
 		float testing2 = FLXMath::calculate_AngleBetweenVectors(static_cast<BasicCube*>(otherGameObject)->normal2, direction);*/
 
-		glm::vec3 normalVector;
-
-		normalVector = static_cast<BasicCube*>(otherGameObject)->normal;
-
-		float dotProduct = glm::dot(get_GameObjectVelocity(), normalVector);
-		glm::vec3 test = normalVector * dotProduct;
+		float dotProduct = glm::dot(get_GameObjectVelocity(), hitPosition);
+		glm::vec3 test = hitPosition * dotProduct;
 
 		test *= -2;
 		test += get_GameObjectVelocity();

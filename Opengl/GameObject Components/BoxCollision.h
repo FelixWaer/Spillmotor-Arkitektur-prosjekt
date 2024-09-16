@@ -24,8 +24,8 @@ public:
 	float BoxHeight = 0.f;
 	float BoxDepth = 0.f;
 
-	void call_CollisionEvent(BoxCollision* otherBoxCollider) const;
-	void call_CollisionEvent(SphereCollision* otherSphereCollider) const;
+	void call_CollisionEvent(BoxCollision* otherBoxCollider, glm::vec3 hitPosition) const;
+	void call_CollisionEvent(SphereCollision* otherSphereCollider, glm::vec3 hitPosition) const;
 private:
 	glm::vec3* BoxPosition = nullptr;
 	GameObject* AttachedGameObject = nullptr;

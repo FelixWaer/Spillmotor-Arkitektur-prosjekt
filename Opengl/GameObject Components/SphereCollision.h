@@ -19,8 +19,8 @@ public:
 	glm::vec3 get_SpherePosition() const;
 	GameObject* get_AttachedGameObject();
 
-	void call_CollisionEvent(SphereCollision* otherSphereCollider) const;
-	void call_CollisionEvent(BoxCollision* otherBoxCollider) const;
+	void call_CollisionEvent(SphereCollision* otherSphereCollider, glm::vec3 hitPosition) const;
+	void call_CollisionEvent(BoxCollision* otherBoxCollider, glm::vec3 hitPosition) const;
 private:
 	glm::vec3* SpherePosition = nullptr;
 	GameObject* AttachedGameObject = nullptr;

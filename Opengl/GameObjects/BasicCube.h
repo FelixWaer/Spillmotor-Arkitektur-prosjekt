@@ -16,6 +16,6 @@ private:
 	BoxCollision BoxCollider;
 	Event* PhysicsEvent = nullptr;
 	
-	void collision_Physics(GameObject* otherGameObject);
+	void collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition);
 };
 

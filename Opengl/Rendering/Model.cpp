@@ -69,13 +69,16 @@ void Model::set_ModelPosition(glm::vec3 newPosition)
 
 glm::mat4 Model::get_ModelMatrix() const
 {
-	glm::scale(glm::translate(glm::mat4(1.f), ModelPosition), ModelScale);
 	if (AttachedModelPosition == nullptr)
 	{
 		return glm::scale(glm::translate(glm::mat4(1.f), ModelPosition) * glm::rotate(glm::mat4(1.f), glm::radians(ModelRotation.y), glm::vec3(0.f, 1.f, 0.f)), ModelScale);
 	}
-
-	return glm::scale(glm::translate(glm::mat4(1.f), *AttachedModelPosition) * glm::rotate(glm::mat4(1.f), glm::radians(ModelRotation.y), glm::vec3(0.f, 1.f, 0.f)), ModelScale);
+	glm::mat4 test(1.f);
+	test = glm::translate(glm::mat4(1.f), *AttachedModelPosition);
+	test *= glm::rotate(glm::mat4(1.f), glm::radians(ModelRotation.x), glm::vec3(1.f, 0.f, 0.f));
+	test *= glm::rotate(glm::mat4(1.f), glm::radians(ModelRotation.y), glm::vec3(0.f, 1.f, 0.f));
+	test *= glm::rotate(glm::mat4(1.f), glm::radians(ModelRotation.z), glm::vec3(0.f, 0.f, 1.f));
+	return glm::scale(test, ModelScale);
 }
 
 std::string& Model::get_ModelMeshName()

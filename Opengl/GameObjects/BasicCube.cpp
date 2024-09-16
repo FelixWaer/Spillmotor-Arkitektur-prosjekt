@@ -12,12 +12,13 @@ void BasicCube::game_Start()
 	BoxModel.set_ModelMesh("Cube");
 
 	BoxCollider.attach_ToGameObject(this);
-	BoxCollider.set_BoxWidth(20.f);
-	BoxCollider.set_BoxHeight(10.f);
+	BoxCollider.set_BoxWidth(9.5f);
+	BoxCollider.set_BoxHeight(2.5f);
 	BoxCollider.set_BoxDepth(0.5f);
 
 	PhysicsEvent = make_Event(this, &BasicCube::collision_Physics);
 	BoxCollider.attach_Event(PhysicsEvent);
+	BoxCollider.enable_BoxVisible(false);
 
 	add_Tag("Wall");
 
@@ -32,7 +33,7 @@ void BasicCube::tick(float deltaTime)
 
 }
 
-void BasicCube::collision_Physics(GameObject* otherGameObject)
+void BasicCube::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition)
 {
 	
 }

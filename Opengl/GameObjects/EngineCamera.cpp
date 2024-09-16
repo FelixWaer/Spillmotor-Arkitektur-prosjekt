@@ -79,7 +79,7 @@ void EngineCamera::input_ESCFunction()
 	EngineManager::get()->get_ActiveWindow().close_Window();
 }
 
-void EngineCamera::collision_Function(GameObject* otherGameObject)
+void EngineCamera::collision_Function(GameObject* otherGameObject, glm::vec3 hitPosition)
 {
 	if (otherGameObject == nullptr)
 	{

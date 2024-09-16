@@ -65,19 +65,19 @@ void BoxCollision::set_BoxDepth(float depth)
 	BoxDepth = depth;
 }
 
-void BoxCollision::call_CollisionEvent(BoxCollision* otherBoxCollider) const
+void BoxCollision::call_CollisionEvent(BoxCollision* otherBoxCollider, glm::vec3 hitPosition) const
 {
 	if (CollisionEvent != nullptr)
 	{
-		CollisionEvent->Collision_Event(otherBoxCollider->get_AttachedGameObject());
+		CollisionEvent->Collision_Event(otherBoxCollider->get_AttachedGameObject(), hitPosition);
 	}
 }
 
-void BoxCollision::call_CollisionEvent(SphereCollision* otherSphereCollider) const
+void BoxCollision::call_CollisionEvent(SphereCollision* otherSphereCollider, glm::vec3 hitPosition) const
 {
 	if (CollisionEvent != nullptr)
 	{
-		CollisionEvent->Collision_Event(otherSphereCollider->get_AttachedGameObject());
+		CollisionEvent->Collision_Event(otherSphereCollider->get_AttachedGameObject(), hitPosition);
 	}
 }
 

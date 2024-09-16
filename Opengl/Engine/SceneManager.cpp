@@ -21,18 +21,18 @@ void SceneManager::begin_Scene()
 	//CubeObject3.set_GameObjectSpeed(10.f);
 
 	Wall1.init_GameObject();
-	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 20.f));
+	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 10.f));
 	Wall2.init_GameObject();
-	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -20.f));
+	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -10.f));
 	Wall3.init_GameObject();
-	Wall3.set_GameObjectPosition(glm::vec3(20.f, 0.f, 0.f));
+	Wall3.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
 	Wall3.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
 	Wall4.init_GameObject();
-	Wall4.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
+	Wall4.set_GameObjectPosition(glm::vec3(-10.f, 0.f, 0.f));
 	Wall4.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
 
 	SceneLight.init_GameObject();
-	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 10.f, 0.f));
+	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 20.f, 0.f));
 
 	while (GameObjectsToBeAdded.empty() == false)
 	{
@@ -138,8 +138,8 @@ void SceneManager::check_Collision()
 					SceneBoxColliders[i]->BoxHeight, SceneBoxColliders[i]->BoxWidth, SceneBoxColliders[i]->BoxDepth,
 					SceneBoxColliders[j]->BoxHeight, SceneBoxColliders[j]->BoxWidth, SceneBoxColliders[j]->BoxDepth))
 				{
-					SceneBoxColliders[i]->call_CollisionEvent(SceneBoxColliders[j]);
-					SceneBoxColliders[j]->call_CollisionEvent(SceneBoxColliders[i]);
+					SceneBoxColliders[i]->call_CollisionEvent(SceneBoxColliders[j], glm::vec3(0.f));
+					SceneBoxColliders[j]->call_CollisionEvent(SceneBoxColliders[i], glm::vec3(0.f));
 				}
 			}
 		}
@@ -154,8 +154,8 @@ void SceneManager::check_Collision()
 				if (calculate_SphereCollision(SceneSphereColliders[i]->get_SpherePosition(), SceneSphereColliders[j]->get_SpherePosition(),
 					SceneSphereColliders[i]->get_SphereRadius(), SceneSphereColliders[j]->get_SphereRadius()))
 				{
-					SceneSphereColliders[i]->call_CollisionEvent(SceneSphereColliders[j]);
-					SceneSphereColliders[j]->call_CollisionEvent(SceneSphereColliders[i]);
+					SceneSphereColliders[i]->call_CollisionEvent(SceneSphereColliders[j], glm::vec3(0.f));
+					SceneSphereColliders[j]->call_CollisionEvent(SceneSphereColliders[i], glm::vec3(0.f));
 				}
 			}
 		}
@@ -163,14 +163,15 @@ void SceneManager::check_Collision()
 
 	if (SceneSphereColliders.empty() == false && SceneBoxColliders.empty() == false)
 	{
+		glm::vec3 hitPosition;
 		for (size_t i = 0; i < SceneSphereColliders.size(); i++)
 		{
 			for (size_t j = 0; j < SceneBoxColliders.size(); j++)
 			{
-				if (calculate_BoxSphereCollision(*SceneBoxColliders[j], *SceneSphereColliders[i]) == true)
+				if (calculate_BoxSphereCollision(*SceneBoxColliders[j], *SceneSphereColliders[i], hitPosition) == true)
 				{
-					SceneBoxColliders[j]->call_CollisionEvent(SceneSphereColliders[i]);
-					SceneSphereColliders[i]->call_CollisionEvent(SceneBoxColliders[j]);
+					SceneBoxColliders[j]->call_CollisionEvent(SceneSphereColliders[i], hitPosition);
+					SceneSphereColliders[i]->call_CollisionEvent(SceneBoxColliders[j], hitPosition);
 				}
 			}
 		}
@@ -201,7 +202,7 @@ bool SceneManager::calculate_SphereCollision(glm::vec3 spherePos_1, glm::vec3 sp
 	}
 }
 
-bool SceneManager::calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider)
+bool SceneManager::calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider, glm::vec3& hitPosition)
 {
 	glm::vec3 min = boxCollider.get_BoxPosition();
 	min.x -= boxCollider.BoxWidth;
@@ -221,6 +222,7 @@ bool SceneManager::calculate_BoxSphereCollision(const BoxCollision& boxCollider,
 
 	if (distance <= sphereCollider.get_SphereRadius())
 	{
+		hitPosition = closesPoint;
 		return true;
 	}
 

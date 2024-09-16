@@ -66,6 +66,6 @@ private:
 	void check_Collision();
 	bool calculate_BoxCollision(glm::vec3 boxPos_1, glm::vec3 boxPos_2, float boxHeight_1, float boxWidth_1, float boxDepth_1, float boxHeight_2, float boxWidth_2, float boxDepth_2);
 	bool calculate_SphereCollision(glm::vec3 spherePos_1, glm::vec3 spherePos_2, float sphereRadius_1, float sphereRadius_2);
-	static bool calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider);
+	static bool calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider, glm::vec3& hitPosition);
 };
 
