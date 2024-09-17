@@ -26,6 +26,8 @@ void BasicSphere::game_Start()
 
 	PhysicsEvent = make_Event(this, &BasicSphere::collision_Physics);
 	collider.attach_Event(PhysicsEvent);
+
+	GravityEnabled = true;
 }
 
 void BasicSphere::tick(float deltaTime)
@@ -37,6 +39,7 @@ void BasicSphere::tick(float deltaTime)
 	}
 
 	GameObject::tick(deltaTime);
+
 }
 
 void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition)

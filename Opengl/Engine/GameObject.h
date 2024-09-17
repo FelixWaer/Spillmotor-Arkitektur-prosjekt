@@ -30,6 +30,7 @@ protected:
 	glm::vec3 GameObjectVelocity = glm::vec3(0.f);
 	glm::vec3 GameObjectFront = glm::vec3(0.f);
 	float GameObjectSpeed = 0.f;
+	bool GravityEnabled = false;
 
 private:
 	std::vector<std::string> tags;

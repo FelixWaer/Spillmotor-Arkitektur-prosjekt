@@ -72,9 +72,9 @@ void EngineCamera::input_LMouseFunction()
 	BasicSphere* tempBall = new BasicSphere;
 
 	tempBall->init_GameObject();
+
 	tempBall->set_GameObjectPosition(get_GameObjectPosition());
-	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget());
-	tempBall->set_GameObjectSpeed(20.f);
+	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget()*50.f);
 
 	Balls.emplace_back(tempBall);
 	counter++;
@@ -87,9 +87,8 @@ void EngineCamera::input_RMouseFunction()
 
 	tempBall->init_GameObject();
 	tempBall->set_GameObjectPosition(get_GameObjectPosition());
-	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget());
-	tempBall->set_GameObjectSpeed(20.f);
-	tempBall->Mass = 5.f;
+	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget()*50.f);
+	tempBall->Mass = 50.f;
 
 	Balls.emplace_back(tempBall);
 	counter++;

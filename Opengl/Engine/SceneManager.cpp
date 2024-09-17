@@ -20,22 +20,26 @@ void SceneManager::begin_Scene()
 	//SphereObject.set_GameObjectSpeed(0.f);
 
 	Wall1.init_GameObject();
-	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 40.f));
+	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 20.f));
 	Wall1.BoxModel.scale_Model(glm::vec3(41.f, 20.f, 1.f));
 
 	Wall2.init_GameObject();
-	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -40.f));
+	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -20.f));
 	Wall2.BoxModel.scale_Model(glm::vec3(41.f, 20.f, 1.f));
 
 	Wall3.init_GameObject();
-	Wall3.set_GameObjectPosition(glm::vec3(40.f, 0.f, 0.f));
+	Wall3.set_GameObjectPosition(glm::vec3(20.f, 0.f, 0.f));
 	Wall3.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
 	Wall3.BoxModel.scale_Model(glm::vec3(39.f, 20.f, 1.f));
 
 	Wall4.init_GameObject();
-	Wall4.set_GameObjectPosition(glm::vec3(-40.f, 0.f, 0.f));
+	Wall4.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
 	Wall4.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
 	Wall4.BoxModel.scale_Model(glm::vec3(39.f, 20.f, 1.f));
+
+	Floor.init_GameObject();
+	Floor.set_GameObjectPosition(glm::vec3(0.f, -10.f, 0.f));
+	Floor.BoxModel.scale_Model(glm::vec3(40.f, 1.f, 40.f));
 
 	SceneLight.init_GameObject();
 	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 20.f, 0.f));
@@ -49,8 +53,6 @@ void SceneManager::begin_Scene()
 		SceneGameObjects.emplace_back(addedGameObject);
 	}
 }
-
-
 
 void SceneManager::tick_Scene(float deltaTime)
 {
