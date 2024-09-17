@@ -79,6 +79,16 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 	}
 }
 
+Mesh* RenderManager::get_Mesh(const std::string& meshName)
+{
+	if (MeshMap.contains(meshName) == true)
+	{
+		return &MeshMap[meshName];
+	}
+
+	return nullptr;
+}
+
 void RenderManager::load_ShadersFromFolder()
 {
 	for (const auto& file : std::filesystem::directory_iterator("Shader"))

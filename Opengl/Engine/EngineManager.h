@@ -23,6 +23,7 @@ public:
 	int get_WindowWidth();
 	int get_WindowHeight();
 	float get_AspectRatio();
+	Mesh* get_Mesh(const std::string& meshName);
 private:
 	EngineManager() = default;
 

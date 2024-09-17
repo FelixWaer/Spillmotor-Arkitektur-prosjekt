@@ -97,6 +97,11 @@ float EngineManager::get_AspectRatio()
 	return ActiveWindow.get_AspectRatio();
 }
 
+Mesh* EngineManager::get_Mesh(const std::string& meshName)
+{
+	return RenderManager.get_Mesh(meshName);
+}
+
 void EngineManager::tick_Engine()
 {
 	/*----Start of Temporary Code----*/
@@ -118,6 +123,6 @@ void EngineManager::tick_Engine()
 	ActiveScene->tick_Scene(DeltaTime);
 
 	RenderManager.render_Scene(ActiveScene);
-
+	std::cout << 1.f / DeltaTime << std::endl;
 	Input::reset_Input();
 }

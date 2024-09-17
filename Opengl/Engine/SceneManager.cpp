@@ -6,30 +6,36 @@
 void SceneManager::begin_Scene()
 {
 	ActiveEngineCamera.init_GameObject();
+
 	//SphereObject.init_GameObject();
-	//SphereObject.set_GameObjectPosition(glm::vec3(0.f, 0.f, 1.f));
-	//CubeObject.set_GameObjectSpeed(10.f);
+	//SphereObject.set_GameObjectPosition(glm::vec3(0.f));
+	//SphereObject.set_GameObjectSpeed(0.f);
 
 	//SphereObject2.init_GameObject();
-	//SphereObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
-	//SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
-	////CubeObject2.set_GameObjectSpeed(10.f);
+	//SphereObject2.set_GameObjectPosition(glm::vec3(0.f));
+	//SphereObject.set_GameObjectSpeed(0.f);
 
 	//SphereObject3.init_GameObject();
-	//SphereObject3.set_GameObjectPosition(glm::vec3(-20.f, 0.f, 0.f));
-	//SphereObject3.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
-	//CubeObject3.set_GameObjectSpeed(10.f);
+	//SphereObject3.set_GameObjectPosition(glm::vec3(0.f));
+	//SphereObject.set_GameObjectSpeed(0.f);
 
 	Wall1.init_GameObject();
-	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 10.f));
+	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 40.f));
+	Wall1.BoxModel.scale_Model(glm::vec3(41.f, 20.f, 1.f));
+
 	Wall2.init_GameObject();
-	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -10.f));
+	Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -40.f));
+	Wall2.BoxModel.scale_Model(glm::vec3(41.f, 20.f, 1.f));
+
 	Wall3.init_GameObject();
-	Wall3.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
+	Wall3.set_GameObjectPosition(glm::vec3(40.f, 0.f, 0.f));
 	Wall3.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
+	Wall3.BoxModel.scale_Model(glm::vec3(39.f, 20.f, 1.f));
+
 	Wall4.init_GameObject();
-	Wall4.set_GameObjectPosition(glm::vec3(-10.f, 0.f, 0.f));
+	Wall4.set_GameObjectPosition(glm::vec3(-40.f, 0.f, 0.f));
 	Wall4.BoxModel.rotate_Model(glm::vec3(0.f, 90.f, 0.f));
+	Wall4.BoxModel.scale_Model(glm::vec3(39.f, 20.f, 1.f));
 
 	SceneLight.init_GameObject();
 	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 20.f, 0.f));
@@ -204,19 +210,19 @@ bool SceneManager::calculate_SphereCollision(glm::vec3 spherePos_1, glm::vec3 sp
 
 bool SceneManager::calculate_BoxSphereCollision(const BoxCollision& boxCollider, const SphereCollision& sphereCollider, glm::vec3& hitPosition)
 {
-	glm::vec3 min = boxCollider.get_BoxPosition();
-	min.x -= boxCollider.BoxWidth;
-	min.y -= boxCollider.BoxHeight;
-	min.z -= boxCollider.BoxDepth;
+	//glm::vec3 min = boxCollider.get_BoxPosition();
+	//min.x -= boxCollider.BoxWidth;
+	//min.y -= boxCollider.BoxHeight;
+	//min.z -= boxCollider.BoxDepth;
 
-	glm::vec3 max = boxCollider.get_BoxPosition();
-	max.x += boxCollider.BoxWidth;
-	max.y += boxCollider.BoxHeight;
-	max.z += boxCollider.BoxDepth;
+	//glm::vec3 max = boxCollider.get_BoxPosition();
+	//max.x += boxCollider.BoxWidth;
+	//max.y += boxCollider.BoxHeight;
+	//max.z += boxCollider.BoxDepth;
 
 	glm::vec3 closesPoint(0.f);
 
-	closesPoint = glm::clamp(sphereCollider.get_SpherePosition(), min, max);
+	closesPoint = glm::clamp(sphereCollider.get_SpherePosition(), boxCollider.MinVertex, boxCollider.MaxVertex);
 
 	float distance = glm::distance(sphereCollider.get_SpherePosition(), closesPoint);
 

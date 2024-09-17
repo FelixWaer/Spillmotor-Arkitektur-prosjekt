@@ -44,12 +44,11 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPo
 	}
 	if (otherGameObject->has_Tag("Wall"))
 	{
-		glm::vec3 direction = get_GameObjectVelocity();
 	/*	float testing = FLXMath::calculate_AngleBetweenVectors(static_cast<BasicCube*>(otherGameObject)->normal, direction);
 		float testing2 = FLXMath::calculate_AngleBetweenVectors(static_cast<BasicCube*>(otherGameObject)->normal2, direction);*/
-
-		float dotProduct = glm::dot(get_GameObjectVelocity(), hitPosition);
-		glm::vec3 test = hitPosition * dotProduct;
+		glm::vec3 hitPositionNormal = glm::normalize(hitPosition-get_GameObjectPosition());
+		float dotProduct = glm::dot(get_GameObjectVelocity(), hitPositionNormal);
+		glm::vec3 test = hitPositionNormal * dotProduct;
 
 		test *= -2;
 		test += get_GameObjectVelocity();

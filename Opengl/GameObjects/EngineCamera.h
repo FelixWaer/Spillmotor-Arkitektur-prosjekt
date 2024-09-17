@@ -31,5 +31,7 @@ private:
 
 	Camera ActiveCamera;
 	std::vector<BasicSphere*> Balls;
+
+	int counter = 0;
 };
 

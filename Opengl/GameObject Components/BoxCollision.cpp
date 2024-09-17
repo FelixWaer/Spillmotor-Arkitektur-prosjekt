@@ -81,3 +81,42 @@ void BoxCollision::call_CollisionEvent(SphereCollision* otherSphereCollider, glm
 	}
 }
 
+void BoxCollision::calculate_BoundingBox(Model* model)
+{
+	Mesh* meshPtr = EngineManager::get()->get_Mesh(model->get_ModelMeshName());
+
+	//float minX = FLT_MAX;
+	//float minY = FLT_MAX;
+	//float minZ = FLT_MAX;
+	//float maxX = -FLT_MAX;
+	//float maxY = -FLT_MAX;
+	//float maxZ = -FLT_MAX;
+
+	MinVertex = glm::vec3(FLT_MAX);
+	MaxVertex = glm::vec3(-FLT_MAX);
+
+	glm::vec3 test;
+
+	for (const Vertex& vertex : meshPtr->Vertices)
+	{
+		test = glm::vec3(model->get_ModelMatrix() * glm::vec4(vertex.Position, 1.0f));
+
+		//minX = glm::min(minX, test.x);
+		//minY = glm::min(minY, test.y);
+		//minZ = glm::min(minZ, test.z);
+		//maxX = glm::max(maxX, test.x);
+		//maxY = glm::max(maxY, test.y);
+		//maxZ = glm::max(maxZ, test.z);
+
+		MinVertex = glm::min(MinVertex, test);
+		MaxVertex = glm::max(MaxVertex, test);
+	}
+
+	//std::cout << "minX: " << minX << " minY: " << minY << " minZ: " << minZ << std::endl;
+	//std::cout << "maxX: " << maxX << " maxY: " << maxY << " maxZ: " << maxZ << std::endl;
+	std::cout << "Vector" << std::endl;
+	std::cout << "minX: " << MinVertex.x << " minY: " << MinVertex.y << " minZ: " << MinVertex.z << std::endl;
+	std::cout << "maxX: " << MaxVertex.x << " maxY: " << MaxVertex.y << " maxZ: " << MaxVertex.z << std::endl;
+	std::cout << "----------------------------" << std::endl;
+}
+

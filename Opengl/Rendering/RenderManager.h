@@ -16,6 +16,7 @@ public:
 	void cleanup_RenderManager();
 	void render_Scene(SceneManager* sceneToRender);
 
+	Mesh* get_Mesh(const std::string& meshName);
 private:
 	std::unordered_map<std::string, Shader> ShaderMap;
 	std::unordered_map<std::string, Mesh> MeshMap;

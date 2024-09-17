@@ -9,7 +9,7 @@
 void EngineCamera::game_Start()
 {
 	//Set the Camera position
-	ActiveCamera.update_CameraPosition(glm::vec3(0.f, 0.f, 5.f));
+	ActiveCamera.update_CameraPosition(glm::vec3(0.f, -5.f, 0.f));
 
 	//Set the Camera speed
 	ActiveCamera.set_CameraSpeed(50.f);
@@ -38,7 +38,10 @@ void EngineCamera::game_Start()
 
 void EngineCamera::tick(float deltaTime)
 {
+	GameObject::tick(deltaTime);
+
 	set_GameObjectPosition(ActiveCamera.get_CameraPosition());
+	std::cout << "Balls Spawned: " << counter << std::endl;
 }
 
 void EngineCamera::input_WFunction()
@@ -72,6 +75,7 @@ void EngineCamera::input_LMouseFunction()
 	tempBall->set_GameObjectSpeed(20.f);
 
 	Balls.emplace_back(tempBall);
+	counter++;
 }
 
 void EngineCamera::input_ESCFunction()

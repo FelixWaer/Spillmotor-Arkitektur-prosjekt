@@ -24,8 +24,12 @@ public:
 	float BoxHeight = 0.f;
 	float BoxDepth = 0.f;
 
+	glm::vec3 MinVertex = glm::vec3(0.f);
+	glm::vec3 MaxVertex = glm::vec3(0.f);
+
 	void call_CollisionEvent(BoxCollision* otherBoxCollider, glm::vec3 hitPosition) const;
 	void call_CollisionEvent(SphereCollision* otherSphereCollider, glm::vec3 hitPosition) const;
+	void calculate_BoundingBox(Model* model);
 private:
 	glm::vec3* BoxPosition = nullptr;
 	GameObject* AttachedGameObject = nullptr;
