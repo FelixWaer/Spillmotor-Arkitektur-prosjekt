@@ -25,6 +25,7 @@ void EngineCamera::game_Start()
 	S_InputEvent = make_Event(this, &EngineCamera::input_SFunction);
 	D_InputEvent = make_Event(this, &EngineCamera::input_DFunction);
 	LM_InputEvent = make_Event(this, &EngineCamera::input_LMouseFunction);
+	RM_InputEvent = make_Event(this, &EngineCamera::input_RMouseFunction);
 	ESC_InputEvent = make_Event(this, &EngineCamera::input_ESCFunction);
 	CollisionEvent = make_Event(this, &EngineCamera::collision_Function);
 
@@ -33,6 +34,7 @@ void EngineCamera::game_Start()
 	Input::bind_EventToKey(S_InputEvent, Key::S, KeyPress::WhileHeldDown);
 	Input::bind_EventToKey(D_InputEvent, Key::D, KeyPress::WhileHeldDown);
 	Input::bind_EventToKey(LM_InputEvent, Key::LMouse, KeyPress::OnPress);
+	Input::bind_EventToKey(RM_InputEvent, Key::RMouse, KeyPress::OnPress);
 	Input::bind_EventToKey(ESC_InputEvent, Key::ESCAPE, KeyPress::OnPress);
 }
 
@@ -73,6 +75,21 @@ void EngineCamera::input_LMouseFunction()
 	tempBall->set_GameObjectPosition(get_GameObjectPosition());
 	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget());
 	tempBall->set_GameObjectSpeed(20.f);
+
+	Balls.emplace_back(tempBall);
+	counter++;
+}
+
+void EngineCamera::input_RMouseFunction()
+{
+	std::cout << "Mouse pressed" << std::endl;
+	BasicSphere* tempBall = new BasicSphere;
+
+	tempBall->init_GameObject();
+	tempBall->set_GameObjectPosition(get_GameObjectPosition());
+	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget());
+	tempBall->set_GameObjectSpeed(20.f);
+	tempBall->Mass = 5.f;
 
 	Balls.emplace_back(tempBall);
 	counter++;

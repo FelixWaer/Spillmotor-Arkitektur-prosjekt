@@ -18,6 +18,7 @@ private:
 	void input_SFunction();
 	void input_DFunction();
 	void input_LMouseFunction();
+	void input_RMouseFunction();
 	void input_ESCFunction();
 	void collision_Function(GameObject* otherGameObject, glm::vec3 hitPosition);
 
@@ -26,6 +27,7 @@ private:
 	Event* S_InputEvent = nullptr;
 	Event* D_InputEvent = nullptr;
 	Event* LM_InputEvent = nullptr;
+	Event* RM_InputEvent = nullptr;
 	Event* ESC_InputEvent = nullptr;
 	Event* CollisionEvent = nullptr;
 
