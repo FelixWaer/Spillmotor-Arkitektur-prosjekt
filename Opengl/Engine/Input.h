@@ -2,6 +2,8 @@
 
 #include <unordered_map>
 
+#include "GLFW/glfw3.h"
+
 struct GLFWwindow;
 class Event;
 
@@ -11,6 +13,7 @@ enum class Key
 	A = 65,
 	S = 83,
 	D = 68,
+	E = 69,
 	Zero = 48,
 	One = 49,
 	ESCAPE = 256,

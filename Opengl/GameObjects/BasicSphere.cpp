@@ -4,6 +4,7 @@
 
 #include "BasicCube.h"
 #include "../Engine/EventCallback.h"
+#include "../Engine/Input.h"
 #include "../FlexLibrary/FlexMath/FlexMath.h"0+pp
 
 void BasicSphere::game_Start()
@@ -25,9 +26,10 @@ void BasicSphere::game_Start()
 	add_Tag("Ball");
 
 	PhysicsEvent = make_Event(this, &BasicSphere::collision_Physics);
-	collider.attach_Event(PhysicsEvent);
+	GravityEvent = make_Event(this, &BasicSphere::turn_OnGravityButton);
 
-	GravityEnabled = true;
+	collider.attach_Event(PhysicsEvent);
+	Input::bind_EventToKey(GravityEvent, Key::E, KeyPress::OnPress);
 }
 
 void BasicSphere::tick(float deltaTime)
@@ -54,6 +56,7 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPo
 		get_GameObjectPosition() += -directionVectorNormal * (distance * 0.5f);
 
 		directionVector = get_GameObjectPosition() - otherGameObject->get_GameObjectPosition();
+		float speed = glm::length(otherSphere->get_GameObjectVelocity()) + glm::length(get_GameObjectVelocity());
 		float tempMass = (2 * otherSphere->Mass) / (Mass + otherSphere->Mass);
 
 		float dotProduct = glm::dot(get_GameObjectVelocity() - otherSphere->get_GameObjectVelocity(), directionVector);
@@ -63,20 +66,28 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPo
 
 		glm::vec3 newDirection = tempMass * dotProduct * directionVector;
 
-		newVelocity = get_GameObjectVelocity() - newDirection;
-
-		set_GameObjectSpeed(10.f);
+		newVelocity = glm::normalize(get_GameObjectVelocity() - newDirection) * (speed*0.5f);
 
 		otherSphere->CanUpdateVelocity = true;
 	}
 	if (otherGameObject->has_Tag("Wall"))
 	{
 		glm::vec3 hitPositionNormal = glm::normalize(hitPosition-get_GameObjectPosition());
+		float length = glm::length(hitPosition - get_GameObjectPosition());
+		get_GameObjectPosition() += -hitPositionNormal * (1.f - length);
+
+
+		float speed = glm::length(get_GameObjectVelocity());
 		float dotProduct = glm::dot(get_GameObjectVelocity(), hitPositionNormal);
 		glm::vec3 test = hitPositionNormal * dotProduct;
 
 		test *= -2;
 		test += get_GameObjectVelocity();
-		set_GameObjectVelocity(test);
+		set_GameObjectVelocity(glm::normalize(test)*speed);
 	}
+}
+
+void BasicSphere::turn_OnGravityButton()
+{
+	enable_Gravity(true);
 }

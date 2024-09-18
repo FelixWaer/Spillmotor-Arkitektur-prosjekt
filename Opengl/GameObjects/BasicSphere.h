@@ -14,9 +14,11 @@ private:
 	Model Cube;
 	SphereCollision collider;
 	Event* PhysicsEvent = nullptr;
+	Event* GravityEvent = nullptr;
 
 	glm::vec3 newVelocity = glm::vec3(0.f);
 
 	void collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition);
+	void turn_OnGravityButton();
 };
 

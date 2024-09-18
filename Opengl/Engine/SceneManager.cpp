@@ -7,13 +7,13 @@ void SceneManager::begin_Scene()
 {
 	ActiveEngineCamera.init_GameObject();
 
-	//SphereObject.init_GameObject();
-	//SphereObject.set_GameObjectPosition(glm::vec3(0.f));
-	//SphereObject.set_GameObjectSpeed(0.f);
+	SphereObject.init_GameObject();
+	SphereObject.set_GameObjectPosition(glm::vec3(-10.f, 0.f, 0.f));
+	SphereObject.set_GameObjectVelocity(glm::vec3(1.f, 0.f, 0.f));
 
-	//SphereObject2.init_GameObject();
-	//SphereObject2.set_GameObjectPosition(glm::vec3(0.f));
-	//SphereObject.set_GameObjectSpeed(0.f);
+	SphereObject2.init_GameObject();
+	SphereObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
+	SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
 
 	//SphereObject3.init_GameObject();
 	//SphereObject3.set_GameObjectPosition(glm::vec3(0.f));

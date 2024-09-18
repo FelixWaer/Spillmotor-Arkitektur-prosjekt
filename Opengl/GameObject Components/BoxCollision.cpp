@@ -114,9 +114,9 @@ void BoxCollision::calculate_BoundingBox(Model* model)
 
 	//std::cout << "minX: " << minX << " minY: " << minY << " minZ: " << minZ << std::endl;
 	//std::cout << "maxX: " << maxX << " maxY: " << maxY << " maxZ: " << maxZ << std::endl;
-	std::cout << "Vector" << std::endl;
-	std::cout << "minX: " << MinVertex.x << " minY: " << MinVertex.y << " minZ: " << MinVertex.z << std::endl;
-	std::cout << "maxX: " << MaxVertex.x << " maxY: " << MaxVertex.y << " maxZ: " << MaxVertex.z << std::endl;
-	std::cout << "----------------------------" << std::endl;
+	//std::cout << "Vector" << std::endl;
+	//std::cout << "minX: " << MinVertex.x << " minY: " << MinVertex.y << " minZ: " << MinVertex.z << std::endl;
+	//std::cout << "maxX: " << MaxVertex.x << " maxY: " << MaxVertex.y << " maxZ: " << MaxVertex.z << std::endl;
+	//std::cout << "----------------------------" << std::endl;
 }
 

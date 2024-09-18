@@ -25,6 +25,7 @@ public:
 	float& get_GameObjectSpeed();
 	void add_Tag(const std::string& tag);
 	bool has_Tag(const std::string& tag);
+	void enable_Gravity(bool enable);
 protected:
 	glm::vec3 GameObjectPosition = glm::vec3(0.f);
 	glm::vec3 GameObjectVelocity = glm::vec3(0.f);

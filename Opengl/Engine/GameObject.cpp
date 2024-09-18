@@ -11,14 +11,14 @@ void GameObject::tick(float deltaTime)
 {
 	//GameObjectPosition += GameObjectVelocity * GameObjectSpeed * deltaTime;
 
-	GameObjectPosition += GameObjectVelocity * deltaTime;
-
-	GameObjectVelocity -= (GameObjectVelocity * 0.90f) * deltaTime;
-
 	if (GravityEnabled == true)
 	{
-		GameObjectVelocity.y -= 9.81f*deltaTime;
+		GameObjectVelocity.y -= 9.81f * deltaTime;
 	}
+
+	GameObjectPosition += GameObjectVelocity * deltaTime;
+
+	GameObjectVelocity -= (GameObjectVelocity * 0.99f) * deltaTime;
 }
 
 void GameObject::game_Start()
@@ -86,4 +86,9 @@ bool GameObject::has_Tag(const std::string& tag)
 		}
 	}
 	return false;
+}
+
+void GameObject::enable_Gravity(bool enable)
+{
+	GravityEnabled = enable;
 }
