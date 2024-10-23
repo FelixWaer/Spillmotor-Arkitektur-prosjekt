@@ -119,6 +119,12 @@
     <ClCompile Include="GameObjects\LightCube.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\PunktSky.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\BSplineSurface.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectDependencies\Includes\glad\glad.h">
@@ -212,6 +218,12 @@
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\LightCube.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\PunktSky.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\BSplineSurface.h">
       <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>

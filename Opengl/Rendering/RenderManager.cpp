@@ -74,8 +74,21 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 		shaderUsed.send_Bool("HasTexture", modelMaterial.HasTexture);
 		shaderUsed.send_Float("Shininess", modelMaterial.Shininess);
 		shaderUsed.send_Float("SpecularStrength", modelMaterial.SpecularStrength);
-
-		render_Model(MeshMap[model->get_ModelMeshName()]);
+		
+		if (model->get_ModelMeshName() == "Oblig2_Punktsky")
+		{
+			shaderUsed.send_Bool("IsPunktSky", true);
+			render_Model(MeshMap[model->get_ModelMeshName()], true, false);
+		}
+		else if(model->get_ModelMeshName() == "BSplineSurface")
+		{
+			shaderUsed.send_Bool("IsPunktSky", true);
+			render_Model(MeshMap[model->get_ModelMeshName()], false, true);
+		}
+		else
+		{
+			render_Model(MeshMap[model->get_ModelMeshName()], false, false);
+		}
 	}
 }
 
@@ -159,6 +172,11 @@ void RenderManager::load_MeshesFromFolder()
 		//FlexTimer timer("Ball create");
 		FLXModel::create_Ball(MeshMap["Ball"], glm::vec3(0.5f), 4);
 	}
+	if (MeshMap.contains("BSplineSurface") == false)
+	{
+		//FlexTimer timer("Ball create");
+		FLXModel::create_BSplineSurface(MeshMap["BSplineSurface"], glm::vec3(1.f));
+	}
 }
 
 void RenderManager::load_TexturesFromFolder()
@@ -179,11 +197,25 @@ void RenderManager::load_TexturesFromFolder()
 	}
 }
 
-void RenderManager::render_Model(Mesh& meshToRender)
+void RenderManager::render_Model(Mesh& meshToRender, bool renderAsPoints, bool renderAsWireframe)
 {
 	meshToRender.bind_VAOBuffer();
 
-	glDrawElements(GL_TRIANGLES, meshToRender.Triangles.size() * 3, GL_UNSIGNED_INT, 0);
+	if (renderAsPoints == true)
+	{
+		glDrawArrays(GL_POINTS, 0, meshToRender.Vertices.size());
+	}
+	else if(renderAsWireframe == true)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDrawElements(GL_TRIANGLES, meshToRender.Triangles.size() * 3, GL_UNSIGNED_INT, 0);
+	}
+	else
+	{
+		glDrawElements(GL_TRIANGLES, meshToRender.Triangles.size() * 3, GL_UNSIGNED_INT, 0);
+	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glBindVertexArray(0);
 }

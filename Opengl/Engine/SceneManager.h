@@ -13,6 +13,8 @@
 #include "../GameObjects/BasicSphere.h"
 #include "../GameObjects/BasicCube.h"
 #include "../GameObjects/LightCube.h"
+#include "../GameObjects/PunktSky.h"
+#include "../GameObjects/BSplineSurface.h"
 
 class SceneManager
 {
@@ -49,6 +51,9 @@ private:
 	BasicCube Wall3;
 	BasicCube Wall4;
 	BasicCube Floor;
+
+	PunktSky PunktSkyModel;
+	BSplineSurface SplineSurface;
 	//End of Temporary Code
 	Camera* SceneCamera = nullptr;
 

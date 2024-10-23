@@ -8,6 +8,7 @@ uniform vec3 CameraPos;
 uniform vec3 LightPos;
 uniform vec3 LightColor;
 uniform bool HasTexture;
+uniform bool IsPunktSky = false;
 
 uniform float Shininess;
 uniform float SpecularStrength;
@@ -51,8 +52,15 @@ vec3 calculate_PointLight()
 }
 
 void main()
-{   	
+{   
+	if(IsPunktSky == true) 
+	{
+		OutColor = vec4(FragColor, 1.0f);
+	}
+	else
+	{
 	vec3 pointLight = calculate_PointLight();
 	
    	OutColor = vec4(pointLight, 1.0f);
+	}
 }

@@ -30,6 +30,6 @@ private:
 	void load_MeshesFromFolder();
 	void load_TexturesFromFolder();
 
-	void render_Model(Mesh& meshToRender);
+	void render_Model(Mesh& meshToRender, bool renderAsPoints, bool renderAsWireframe);
 };
 

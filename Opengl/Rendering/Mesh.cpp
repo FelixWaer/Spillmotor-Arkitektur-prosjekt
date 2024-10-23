@@ -143,10 +143,11 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 		switch (dataType)
 		{
 		case 'V':
-			glm::vec3 position;
-			glm::vec3 normal;
-			glm::vec3 color;
-			file >> position.x >> position.y >> position.z >> normal.x >> normal.y >> normal.z >> color.r >> color.g >> color.b;
+			glm::vec3 position = glm::vec3(0.f);
+			glm::vec3 normal = glm::vec3(0.f);
+			glm::vec3 color = glm::vec3(1.f);
+			//file >> position.x >> position.y >> position.z >> normal.x >> normal.y >> normal.z >> color.r >> color.g >> color.b;
+			file >> position.x >> position.y >> position.z;
 			Vertices.emplace_back(position, normal, color, glm::vec2(0.0f));
 			break;
 
@@ -159,6 +160,14 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 		default:
 			break;
 		}
+	}
+
+	//temporary just to fix the large position value
+	glm::vec3 tempVec = Vertices[0].Position;
+
+	for (Vertex& vertex : Vertices)
+	{
+		vertex.Position -= tempVec;	
 	}
 
 	bind_Buffer(GL_STATIC_DRAW);

@@ -173,4 +173,121 @@ namespace FLXModel
 		mesh.bind_Buffer(GL_STATIC_DRAW);
 	}
 
+	float basisFunction(int i, int p, float t, const std::vector<float>& knotVector) {
+		if (p == 0) {
+			return (t >= knotVector[i] && t < knotVector[i + 1]) ? 1.0 : 0.0;
+		}
+		else {
+			float left = (t - knotVector[i]) / (knotVector[i + p] - knotVector[i]);
+			float right = (knotVector[i + p + 1] - t) / (knotVector[i + p + 1] - knotVector[i + 1]);
+
+			float leftBasis = (knotVector[i + p] != knotVector[i]) ? left * basisFunction(i, p - 1, t, knotVector) : 0.0;
+			float rightBasis = (knotVector[i + p + 1] != knotVector[i + 1]) ? right * basisFunction(i + 1, p - 1, t, knotVector) : 0.0;
+
+			return leftBasis + rightBasis;
+		}
+	}
+
+	glm::vec3 evaluateBiquadraticBSplineSurface(
+		float u, float v,
+		const std::vector<std::vector<glm::vec3>>& controlPoints,
+		const std::vector<float>& uKnotVector,
+		const std::vector<float>& vKnotVector
+	) {
+		int n = controlPoints.size();    // Number of control points in the u-direction
+		int m = controlPoints[0].size(); // Number of control points in the v-direction
+		int p = 2; // Degree 2 for biquadratic
+
+		glm::vec3 surfacePoint(0.0f); // Initialize to zero (assuming 3D control points)
+
+		// Iterate over control points and sum the tensor product of the B-spline basis functions
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++j) {
+				float basisU = basisFunction(i, p, u, uKnotVector);
+				float basisV = basisFunction(j, p, v, vKnotVector);
+				float weight = basisU * basisV;
+
+				// Add contribution from control point
+				surfacePoint += weight * controlPoints[i][j];
+			}
+		}
+
+		return surfacePoint;
+	}
+
+	void generateSurfacePointsAndTriangles(
+		int gridResolutionU, int gridResolutionV,
+		const std::vector<std::vector<glm::vec3>>& controlPoints,
+		const std::vector<float>& uKnotVector,
+		const std::vector<float>& vKnotVector,
+		std::vector<glm::vec3>& surfacePoints,
+		std::vector<Triangle>& indices
+	) {
+		// Clear previous data
+		surfacePoints.clear();
+		indices.clear();
+
+		// Loop over the parameter space to evaluate the surface points
+		for (int i = 0; i < gridResolutionU; ++i) {
+			for (int j = 0; j < gridResolutionV; ++j) {
+				// Map i, j to the parametric space [0, 2] (knot vector range)
+				float u = 2.0 * i / (gridResolutionU - 1); // Normalize to [0, 2] for uniform knots
+				float v = 2.0 * j / (gridResolutionV - 1);
+
+				// Evaluate the surface at the current (u, v)
+				glm::vec3 surfacePoint = evaluateBiquadraticBSplineSurface(u, v, controlPoints, uKnotVector, vKnotVector);
+
+				// Store the surface point
+				surfacePoints.push_back(surfacePoint);
+			}
+		}
+
+		// Generate indices for the triangles
+		for (int i = 0; i < gridResolutionU - 1; ++i) {
+			for (int j = 0; j < gridResolutionV - 1; ++j) {
+				// Calculate indices of the four corners of the current quad
+				int topLeft = i * gridResolutionV + j;
+				int topRight = topLeft + 1;
+				int bottomLeft = (i + 1) * gridResolutionV + j;
+				int bottomRight = bottomLeft + 1;
+
+				// First triangle (top-left, bottom-left, bottom-right)
+				indices.emplace_back(topLeft, bottomLeft, bottomRight);
+
+				// Second triangle (top-left, bottom-right, top-right)
+				indices.emplace_back(topLeft, bottomRight, topRight);
+			}
+		}
+	}
+
+	void create_BSplineSurface(Mesh& surface, glm::vec3 color)
+	{
+		std::vector<std::vector<glm::vec3>> controlPoints = {
+		{glm::vec3(0.0, 0.0, 0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(3.0, 0.0, 0.0)},
+		{glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0, 1.0, 2.0), glm::vec3(2.0, 1.0, 2.0), glm::vec3(3.0, 1.0, 0.0)},
+		{glm::vec3(0.0, 2.0, 0.0), glm::vec3(1.0, 2.0, 0.0), glm::vec3(2.0, 2.0, 0.0), glm::vec3(3.0, 2.0, 0.0)},
+		/*	{glm::vec3(3.0, 0.0, 0.0), glm::vec3(3.0, 1.0, 0.0), glm::vec3(3.0, 2.0, 0.0), glm::vec3(3.0, 3.0, 0.0)}*/
+		};
+
+		std::vector<float> uKnotVector = { 0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 4.0, 4.0, 4.0 };
+		std::vector<float> vKnotVector = { 0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 3.0, 3.0 };
+
+		int gridResolutionU = 20;
+		int gridResolutionV = 20;
+		std::vector<glm::vec3> surfacePoints;
+
+		generateSurfacePointsAndTriangles(gridResolutionU, gridResolutionV, controlPoints, uKnotVector, vKnotVector, surfacePoints, surface.Triangles);
+
+		for (glm::vec3& point : surfacePoints)
+		{
+			surface.Vertices.emplace_back(point, color);
+		}
+		for (const Triangle& triangle : surface.Triangles)
+		{
+			FLXMath::calculate_TriangleNormal(surface.Vertices[triangle.FirstIndex],
+				surface.Vertices[triangle.SecondIndex], surface.Vertices[triangle.ThirdIndex]);
+		}
+
+		surface.bind_Buffer(GL_STATIC_DRAW);
+	}
 }
