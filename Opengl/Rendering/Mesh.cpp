@@ -147,7 +147,7 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 			glm::vec3 normal = glm::vec3(0.f);
 			glm::vec3 color = glm::vec3(1.f);
 			//file >> position.x >> position.y >> position.z >> normal.x >> normal.y >> normal.z >> color.r >> color.g >> color.b;
-			file >> position.x >> position.y >> position.z;
+			file >> position.x >> position.y >> position.z >> color.x >> color.y >> color.z;
 			Vertices.emplace_back(position, normal, color, glm::vec2(0.0f));
 			break;
 

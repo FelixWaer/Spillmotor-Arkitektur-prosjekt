@@ -114,8 +114,8 @@ void EngineManager::tick_Engine()
 	glClearColor(0.f, 0.f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glLineWidth(10);
-	glPointSize(5);
+	glLineWidth(2);
+	glPointSize(1);
 
 	/*-----End of Temporary Code-----*/
 	Input::call_KeyEvents();

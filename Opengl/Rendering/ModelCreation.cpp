@@ -188,7 +188,7 @@ namespace FLXModel
 		}
 	}
 
-	glm::vec3 evaluateBiquadraticBSplineSurface(
+	glm::vec3 evaluate_BiquadraticBSplineSurface(
 		float u, float v,
 		const std::vector<std::vector<glm::vec3>>& controlPoints,
 		const std::vector<float>& uKnotVector,
@@ -196,15 +196,15 @@ namespace FLXModel
 	) {
 		int n = controlPoints.size();    // Number of control points in the u-direction
 		int m = controlPoints[0].size(); // Number of control points in the v-direction
-		int p = 2; // Degree 2 for biquadratic
+		int d = 2; 
 
 		glm::vec3 surfacePoint(0.0f); // Initialize to zero (assuming 3D control points)
 
 		// Iterate over control points and sum the tensor product of the B-spline basis functions
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < m; ++j) {
-				float basisU = basisFunction(i, p, u, uKnotVector);
-				float basisV = basisFunction(j, p, v, vKnotVector);
+				float basisU = basisFunction(i, d, u, uKnotVector);
+				float basisV = basisFunction(j, d, v, vKnotVector);
 				float weight = basisU * basisV;
 
 				// Add contribution from control point
@@ -215,7 +215,7 @@ namespace FLXModel
 		return surfacePoint;
 	}
 
-	void generateSurfacePointsAndTriangles(
+	void generate_SurfacePointsAndTriangles(
 		int gridResolutionU, int gridResolutionV,
 		const std::vector<std::vector<glm::vec3>>& controlPoints,
 		const std::vector<float>& uKnotVector,
@@ -235,7 +235,7 @@ namespace FLXModel
 				float v = 2.0 * j / (gridResolutionV - 1);
 
 				// Evaluate the surface at the current (u, v)
-				glm::vec3 surfacePoint = evaluateBiquadraticBSplineSurface(u, v, controlPoints, uKnotVector, vKnotVector);
+				glm::vec3 surfacePoint = evaluate_BiquadraticBSplineSurface(u, v, controlPoints, uKnotVector, vKnotVector);
 
 				// Store the surface point
 				surfacePoints.push_back(surfacePoint);
@@ -266,7 +266,6 @@ namespace FLXModel
 		{glm::vec3(0.0, 0.0, 0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(2.0, 0.0, 0.0), glm::vec3(3.0, 0.0, 0.0)},
 		{glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0, 1.0, 2.0), glm::vec3(2.0, 1.0, 2.0), glm::vec3(3.0, 1.0, 0.0)},
 		{glm::vec3(0.0, 2.0, 0.0), glm::vec3(1.0, 2.0, 0.0), glm::vec3(2.0, 2.0, 0.0), glm::vec3(3.0, 2.0, 0.0)},
-		/*	{glm::vec3(3.0, 0.0, 0.0), glm::vec3(3.0, 1.0, 0.0), glm::vec3(3.0, 2.0, 0.0), glm::vec3(3.0, 3.0, 0.0)}*/
 		};
 
 		std::vector<float> uKnotVector = { 0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 4.0, 4.0, 4.0 };
@@ -276,7 +275,7 @@ namespace FLXModel
 		int gridResolutionV = 20;
 		std::vector<glm::vec3> surfacePoints;
 
-		generateSurfacePointsAndTriangles(gridResolutionU, gridResolutionV, controlPoints, uKnotVector, vKnotVector, surfacePoints, surface.Triangles);
+		generate_SurfacePointsAndTriangles(gridResolutionU, gridResolutionV, controlPoints, uKnotVector, vKnotVector, surfacePoints, surface.Triangles);
 
 		for (glm::vec3& point : surfacePoints)
 		{

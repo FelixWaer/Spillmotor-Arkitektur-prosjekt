@@ -75,9 +75,9 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 		shaderUsed.send_Float("Shininess", modelMaterial.Shininess);
 		shaderUsed.send_Float("SpecularStrength", modelMaterial.SpecularStrength);
 		
-		if (model->get_ModelMeshName() == "Oblig2_Punktsky")
+		if (model->get_ModelMeshName() == "CroppedCloud")
 		{
-			shaderUsed.send_Bool("IsPunktSky", true);
+			shaderUsed.send_Bool("CroppedCloud", true);
 			render_Model(MeshMap[model->get_ModelMeshName()], true, false);
 		}
 		else if(model->get_ModelMeshName() == "BSplineSurface")
@@ -153,6 +153,7 @@ void RenderManager::load_MeshesFromFolder()
 		}
 		else if (file.path().extension() == ".txt")
 		{
+			FlexTimer timer("Mesh loading timer");
 			MeshMap[FileName].load_MeshTxt(file.path().string());
 		}
 
