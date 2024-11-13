@@ -31,7 +31,8 @@ void FlexTimer::end_Timer()
 {
 	end = std::chrono::high_resolution_clock::now();
 	duration = end - start;
-	write_Time();
+	std::cout << TimerName << ": " << duration << std::endl;
+	//write_Time();
 }
 
 void FlexTimer::write_Time() const

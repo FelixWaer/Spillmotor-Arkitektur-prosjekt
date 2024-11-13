@@ -171,7 +171,7 @@ void RenderManager::load_MeshesFromFolder()
 	if (MeshMap.contains("Ball") == false)
 	{
 		//FlexTimer timer("Ball create");
-		FLXModel::create_Ball(MeshMap["Ball"], glm::vec3(0.5f), 4);
+		FLXModel::create_Ball(MeshMap["Ball"], glm::vec3(0.5f), 6);
 	}
 	if (MeshMap.contains("BSplineSurface") == false)
 	{

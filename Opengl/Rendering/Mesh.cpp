@@ -8,6 +8,7 @@
 
 #include "MeshData.h"
 #include "../FlexLibrary/FlexMath/FlexMath.h"
+#include "../FlexLibrary/FlexNet Client/FlexClient.h"
 
 void Mesh::load_MeshObj(const std::string& filePath)
 {
@@ -114,6 +115,12 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 	float vectorSize = 0;
 	std::string line;
 
+	uint32_t xPos;
+	uint32_t yPos;
+
+	glm::vec3 minValue = glm::vec3(FLT_MAX);
+	glm::vec3 maxValue = glm::vec3(FLT_MIN);
+
 	while (file.eof() == false)
 	{
 		file >> std::ws;
@@ -148,6 +155,21 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 			glm::vec3 color = glm::vec3(1.f);
 			//file >> position.x >> position.y >> position.z >> normal.x >> normal.y >> normal.z >> color.r >> color.g >> color.b;
 			file >> position.x >> position.y >> position.z >> color.x >> color.y >> color.z;
+
+			xPos = static_cast<uint32_t>(position.x);
+			yPos = static_cast<uint32_t>(position.y);
+
+			position.x = xPos;
+			position.y = yPos;
+
+			minValue.x = min(minValue.x, position.x);
+			minValue.y = min(minValue.y, position.y);
+			minValue.z = min(minValue.z, position.z);
+
+			maxValue.x = max(maxValue.x, position.x);
+			maxValue.y = max(maxValue.y, position.y);
+			maxValue.z = max(maxValue.z, position.z);
+
 			Vertices.emplace_back(position, normal, color, glm::vec2(0.0f));
 			break;
 
@@ -162,13 +184,13 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 		}
 	}
 
-	//temporary just to fix the large position value
-	glm::vec3 tempVec = Vertices[0].Position;
-
 	for (Vertex& vertex : Vertices)
 	{
-		vertex.Position -= tempVec;	
+		vertex.Position -= minValue;
 	}
+
+	std::cout << minValue.x << " " << minValue.y << " " << minValue.z << std::endl;
+	std::cout << maxValue.x << " " << maxValue.y << " " << maxValue.z << std::endl;
 
 	bind_Buffer(GL_STATIC_DRAW);
 }
