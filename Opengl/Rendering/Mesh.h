@@ -8,7 +8,7 @@ class Mesh
 {
 public:
 	void load_MeshObj(const std::string& filePath);
-	void load_MeshTxt(const std::string& filePath);
+	void load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh);
 	void create_CubeMesh();
 	void bind_Buffer(int drawType);
 	void rebind_Buffer(int drawType);

@@ -44,7 +44,7 @@ void SceneManager::begin_Scene()
 	//Floor.BoxModel.scale_Model(glm::vec3(40.f, 1.f, 40.f));
 
 	SceneLight.init_GameObject();
-	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 20.f, 0.f));
+	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 50.f, 0.f));
 
 	while (GameObjectsToBeAdded.empty() == false)
 	{

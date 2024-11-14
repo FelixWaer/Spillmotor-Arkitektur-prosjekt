@@ -5,10 +5,12 @@
 #include <glad/glad.h>
 
 #include <iostream>
+#include <unordered_map>
 
 #include "MeshData.h"
 #include "../FlexLibrary/FlexMath/FlexMath.h"
 #include "../FlexLibrary/FlexNet Client/FlexClient.h"
+#include "../FlexLibrary/FlexTimer/Flextimer.h"
 
 void Mesh::load_MeshObj(const std::string& filePath)
 {
@@ -100,7 +102,7 @@ void Mesh::load_MeshObj(const std::string& filePath)
     bind_Buffer(GL_STATIC_DRAW);
 }
 
-void Mesh::load_MeshTxt(const std::string& filePath)
+void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 {
 	std::ifstream file;
 	file.open(filePath);
@@ -189,8 +191,56 @@ void Mesh::load_MeshTxt(const std::string& filePath)
 		vertex.Position -= minValue;
 	}
 
+	maxValue -= minValue;
+
 	std::cout << minValue.x << " " << minValue.y << " " << minValue.z << std::endl;
 	std::cout << maxValue.x << " " << maxValue.y << " " << maxValue.z << std::endl;
+
+	int xLength = static_cast<int>(maxValue.x + 1);
+	int yLength = static_cast<int>(maxValue.y + 1);
+
+	std::cout << "Why is this so big!: " <<maxValue.x << std::endl;
+
+	triangulatedMesh.Vertices.resize(xLength * yLength);
+
+	std::unordered_map<int, int> counter;
+
+	FlexTimer timer("Triangulating Part");
+
+	for (Vertex& vertex : Vertices)
+	{
+		int index = static_cast<int>(vertex.Position.x + (vertex.Position.y * xLength));
+		if (counter.contains(index) == false)
+		{
+			counter[index] = 0;
+		}
+		counter[index]++;
+		triangulatedMesh.Vertices[index].Position.x = vertex.Position.x;
+		triangulatedMesh.Vertices[index].Position.y = vertex.Position.y;
+		triangulatedMesh.Vertices[index].Position.z += vertex.Position.z;
+	}
+
+	for (size_t i = 0; i < triangulatedMesh.Vertices.size(); i++)
+	{
+		triangulatedMesh.Vertices[i].Position.z /= counter[i];
+		triangulatedMesh.Vertices[i].Color = glm::vec3(0.5f);
+
+		if ((i + 1) % xLength == 0  || (i + xLength) >= triangulatedMesh.Vertices.size())
+		{
+			continue;
+		}
+
+		triangulatedMesh.Triangles.emplace_back(i, i + xLength, i + 1);
+		triangulatedMesh.Triangles.emplace_back(i + xLength, (i + xLength) + 1, i + 1);
+	}
+
+	for (const Triangle& triangle : triangulatedMesh.Triangles)
+	{
+		FLXMath::calculate_TriangleNormal(triangulatedMesh.Vertices[triangle.FirstIndex], 
+			triangulatedMesh.Vertices[triangle.ThirdIndex], triangulatedMesh.Vertices[triangle.SecondIndex]);
+	}
+
+	triangulatedMesh.bind_Buffer(GL_STATIC_DRAW);
 
 	bind_Buffer(GL_STATIC_DRAW);
 }

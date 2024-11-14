@@ -80,6 +80,11 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 			shaderUsed.send_Bool("CroppedCloud", true);
 			render_Model(MeshMap[model->get_ModelMeshName()], true, false);
 		}
+		else if (model->get_ModelMeshName() == "TriangulatedMesh")
+		{
+			shaderUsed.send_Bool("IsPunktSky", false);
+			render_Model(MeshMap[model->get_ModelMeshName()], false, false);
+		}
 		else if(model->get_ModelMeshName() == "BSplineSurface")
 		{
 			shaderUsed.send_Bool("IsPunktSky", true);
@@ -154,7 +159,7 @@ void RenderManager::load_MeshesFromFolder()
 		else if (file.path().extension() == ".txt")
 		{
 			FlexTimer timer("Mesh loading timer");
-			MeshMap[FileName].load_MeshTxt(file.path().string());
+			MeshMap[FileName].load_MeshTxt(file.path().string(), MeshMap["TriangulatedMesh"]);
 		}
 
 		std::cout << FileName << " : Mesh loaded" << std::endl;
