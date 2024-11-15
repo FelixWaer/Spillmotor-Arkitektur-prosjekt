@@ -156,13 +156,15 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 			glm::vec3 normal = glm::vec3(0.f);
 			glm::vec3 color = glm::vec3(1.f);
 			//file >> position.x >> position.y >> position.z >> normal.x >> normal.y >> normal.z >> color.r >> color.g >> color.b;
-			file >> position.x >> position.y >> position.z >> color.x >> color.y >> color.z;
+			file >> position.x >> position.z >> position.y >> color.r >> color.g >> color.b;
 
-			xPos = static_cast<uint32_t>(position.x);
-			yPos = static_cast<uint32_t>(position.y);
+			std::getline(file, line);
 
-			position.x = xPos;
-			position.y = yPos;
+			//xPos = static_cast<uint32_t>(position.x);
+			//yPos = static_cast<uint32_t>(position.y);
+
+			//position.x = xPos;
+			//position.y = yPos;
 
 			minValue.x = min(minValue.x, position.x);
 			minValue.y = min(minValue.y, position.y);
@@ -186,58 +188,106 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 		}
 	}
 
+	FlexTimer timer("Triangulating Part");
+
+	int Precision = 5;
+	int resolution = 100;
+
 	for (Vertex& vertex : Vertices)
 	{
 		vertex.Position -= minValue;
+		vertex.Position.x *= resolution;
+		vertex.Position.z *= resolution;
 	}
 
 	maxValue -= minValue;
 
+	maxValue *= resolution;
+
 	std::cout << minValue.x << " " << minValue.y << " " << minValue.z << std::endl;
 	std::cout << maxValue.x << " " << maxValue.y << " " << maxValue.z << std::endl;
 
-	int xLength = static_cast<int>(maxValue.x + 1);
-	int yLength = static_cast<int>(maxValue.y + 1);
+	int xLength = static_cast<int>(maxValue.x);
+	int zLength = static_cast<int>(maxValue.z);
 
-	std::cout << "Why is this so big!: " <<maxValue.x << std::endl;
+	xLength >>= Precision;
+	xLength++;
+	zLength >>= Precision;
+	zLength++;
 
-	triangulatedMesh.Vertices.resize(xLength * yLength);
+	std::cout << "Why is this so big!: " << xLength << std::endl;
+	std::cout << "Why is this so big!: " << zLength << std::endl;
+
+	triangulatedMesh.Vertices.resize(xLength * zLength);
 
 	std::unordered_map<int, int> counter;
 
-	FlexTimer timer("Triangulating Part");
+	glm::ivec2 Coords(0);
+
+	
+	for (int x = 0; x < xLength; x++)
+	{
+		for (int z = 0; z < zLength; z++)
+		{
+			triangulatedMesh.Vertices[x + (z * xLength)].Position = glm::vec3(x, 0.f, z);
+		}
+	}
 
 	for (Vertex& vertex : Vertices)
 	{
-		int index = static_cast<int>(vertex.Position.x + (vertex.Position.y * xLength));
+		Coords.x = static_cast<int>(vertex.Position.x);
+		Coords.y = static_cast<int>(vertex.Position.z);
+		Coords >>= Precision;
+
+		int index = Coords.x + (Coords.y * xLength);
+
 		if (counter.contains(index) == false)
 		{
 			counter[index] = 0;
 		}
 		counter[index]++;
-		triangulatedMesh.Vertices[index].Position.x = vertex.Position.x;
-		triangulatedMesh.Vertices[index].Position.y = vertex.Position.y;
-		triangulatedMesh.Vertices[index].Position.z += vertex.Position.z;
+		//triangulatedMesh.Vertices[index].Position.x += vertex.Position.x;
+		triangulatedMesh.Vertices[index].Position.y += vertex.Position.y;
+		//triangulatedMesh.Vertices[index].Position.z += vertex.Position.z;
+		triangulatedMesh.Vertices[index].Color += vertex.Color;
 	}
-
-	for (size_t i = 0; i < triangulatedMesh.Vertices.size(); i++)
+	
+	for (int i = 0; i < triangulatedMesh.Vertices.size(); i++)
 	{
-		triangulatedMesh.Vertices[i].Position.z /= counter[i];
-		triangulatedMesh.Vertices[i].Color = glm::vec3(0.5f);
+		if (counter[i] == 0)
+		{
+			//if ((i + 1) % xLength != 0)
+			//{
+			//	triangulatedMesh.Vertices[i].Position.z += triangulatedMesh.Vertices[i + 1].Position.z;
+			//	counter[i]++;
+			//}
+			if (i - xLength >= 0)
+			{
+
+				triangulatedMesh.Vertices[i].Position.y = triangulatedMesh.Vertices[i - xLength].Position.y;
+				triangulatedMesh.Vertices[i].Color = triangulatedMesh.Vertices[i - xLength].Color;
+				counter[i]++;
+			}
+		}
+		else
+		{
+			triangulatedMesh.Vertices[i].Position.y /= counter[i];
+			triangulatedMesh.Vertices[i].Color /= counter[i];
+		}
 
 		if ((i + 1) % xLength == 0  || (i + xLength) >= triangulatedMesh.Vertices.size())
 		{
 			continue;
 		}
 
-		triangulatedMesh.Triangles.emplace_back(i, i + xLength, i + 1);
-		triangulatedMesh.Triangles.emplace_back(i + xLength, (i + xLength) + 1, i + 1);
+		triangulatedMesh.Triangles.emplace_back(i, i + xLength, (i + xLength) + 1);
+		triangulatedMesh.Triangles.emplace_back((i + xLength) + 1, i + 1, i );
 	}
 
 	for (const Triangle& triangle : triangulatedMesh.Triangles)
 	{
 		FLXMath::calculate_TriangleNormal(triangulatedMesh.Vertices[triangle.FirstIndex], 
-			triangulatedMesh.Vertices[triangle.ThirdIndex], triangulatedMesh.Vertices[triangle.SecondIndex]);
+			triangulatedMesh.Vertices[triangle.SecondIndex], triangulatedMesh.Vertices[triangle.ThirdIndex]);
 	}
 
 	triangulatedMesh.bind_Buffer(GL_STATIC_DRAW);

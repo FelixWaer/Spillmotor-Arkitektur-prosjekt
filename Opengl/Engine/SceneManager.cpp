@@ -22,8 +22,8 @@ void SceneManager::begin_Scene()
 	//SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
 
 	//Wall1.init_GameObject();
-	//Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 20.f));
-	//Wall1.BoxModel.scale_Model(glm::vec3(41.f, 20.f, 1.f));
+	//Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 0.f));
+	//Wall1.BoxModel.scale_Model(glm::vec3(100.f, 1.f, 1.f));
 
 	//Wall2.init_GameObject();
 	//Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -20.f));
