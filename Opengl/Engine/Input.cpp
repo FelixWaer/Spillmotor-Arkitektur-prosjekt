@@ -135,4 +135,3 @@ void Input::reset_Input()
 		key.second = false;
 	}
 }
-
