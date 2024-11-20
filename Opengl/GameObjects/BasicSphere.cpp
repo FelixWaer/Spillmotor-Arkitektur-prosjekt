@@ -3,6 +3,7 @@
 #include <glm/ext/quaternion_geometric.hpp>
 
 #include "BasicCube.h"
+#include "../Engine/EngineManager.h"
 #include "../Engine/EventCallback.h"
 #include "../Engine/Input.h"
 #include "../FlexLibrary/FlexMath/FlexMath.h"0+pp
@@ -30,6 +31,24 @@ void BasicSphere::game_Start()
 
 	collider.attach_Event(PhysicsEvent);
 	Input::bind_EventToKey(GravityEvent, Key::E, KeyPress::OnPress);
+
+	Mesh* test = EngineManager::get()->get_Mesh("TriangulatedMesh");
+
+	glm::ivec2 coords(0);
+	coords.x = get_GameObjectPosition().x * 100;
+	coords.y = get_GameObjectPosition().z * 100;
+
+	coords >>= 5;
+	int index = coords.x + (coords.y * 1490);
+
+	get_GameObjectPosition().y = test->Vertices[index].Position.y + 0.5f;
+
+	std::cout << test->Vertices[index].Position.y << std::endl;
+	std::cout << "xpos" << get_GameObjectPosition().x << std::endl;
+
+	//FLXMath::calculate_PointOnTriangle(get_GameObjectPosition(), test->Vertices[index].Position,
+	//	test->Vertices[index + 1355], test->Vertices[index + 1], get_GameObjectPosition())
+	
 }
 
 void BasicSphere::tick(float deltaTime)

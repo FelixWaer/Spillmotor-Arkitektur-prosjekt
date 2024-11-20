@@ -9,7 +9,7 @@
 void EngineCamera::game_Start()
 {
 	//Set the Camera position
-	ActiveCamera.update_CameraPosition(glm::vec3(0.f, 0.f, 0.f));
+	ActiveCamera.update_CameraPosition(glm::vec3(0.f, 100.f, 0.f));
 
 	//Set the Camera speed
 	ActiveCamera.set_CameraSpeed(50.f);
@@ -86,9 +86,9 @@ void EngineCamera::input_RMouseFunction()
 
 	tempBall->init_GameObject();
 	tempBall->set_GameObjectPosition(get_GameObjectPosition());
-	tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget()*50.f);
-	tempBall->Mass = 50.f;
-	tempBall->enable_Gravity(true);
+	//tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget()*50.f);
+	//tempBall->Mass = 50.f;
+	//tempBall->enable_Gravity(true);
 
 	Balls.emplace_back(tempBall);
 }

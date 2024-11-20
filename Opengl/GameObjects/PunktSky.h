@@ -12,5 +12,6 @@ public:
 	glm::vec3 get_SlopeAcceleration(glm::vec3& position);
 private:
 	Model TerrainModel;
+	Model TerrainPunktModel;
 };
 

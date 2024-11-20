@@ -185,13 +185,13 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 	FlexTimer timer("Triangulating Part");
 
 	int Precision = 5;
+	int PrecisionSize = 1 << Precision;
 	int resolution = 100;
+	std::cout << "Precision Size:" << PrecisionSize << std::endl;
 
 	for (Vertex& vertex : Vertices)
 	{
 		vertex.Position -= minValue;
-		vertex.Position.x *= resolution;
-		vertex.Position.z *= resolution;
 	}
 
 	maxValue -= minValue;
@@ -217,20 +217,19 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 	std::unordered_map<int, int> counter;
 
 	glm::ivec2 Coords(0);
-
 	
 	for (int x = 0; x < xLength; x++)
 	{
 		for (int z = 0; z < zLength; z++)
 		{
-			triangulatedMesh.Vertices[x + (z * xLength)].Position = glm::vec3(x, 0.f, z);
+			triangulatedMesh.Vertices[x + (z * xLength)].Position = glm::vec3(x * PrecisionSize, 0.f, z * PrecisionSize) * 0.01f;
 		}
 	}
 
 	for (Vertex& vertex : Vertices)
-	{
-		Coords.x = static_cast<int>(vertex.Position. x);
-		Coords.y = static_cast<int>(vertex.Position.z);
+	{																																																																						
+		Coords.x = static_cast<int>(vertex.Position.x * resolution);
+		Coords.y = static_cast<int>(vertex.Position.z * resolution);
 		Coords >>= Precision;
 
 		int index = Coords.x + (Coords.y * xLength);
@@ -240,9 +239,8 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 			counter[index] = 0;
 		}
 		counter[index]++;
-		//triangulatedMesh.Vertices[index].Position.x += vertex.Position.x;
+
 		triangulatedMesh.Vertices[index].Position.y += vertex.Position.y;
-		//triangulatedMesh.Vertices[index].Position.z += vertex.Position.z;
 		triangulatedMesh.Vertices[index].Color += vertex.Color;
 	}
 	
