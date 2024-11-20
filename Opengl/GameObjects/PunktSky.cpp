@@ -21,7 +21,7 @@ glm::vec3 PunktSky::get_SlopeAcceleration(glm::vec3& position)
 
 	gridPos >>= 5;
 
-	int index = gridPos.x + (gridPos.y * )
+	//int index = gridPos.x + (gridPos.y * )
 
 	return glm::vec3();
 }

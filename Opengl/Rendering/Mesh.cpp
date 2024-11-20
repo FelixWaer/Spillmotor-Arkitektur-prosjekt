@@ -160,12 +160,6 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 
 			std::getline(file, line);
 
-			//xPos = static_cast<uint32_t>(position.x);
-			//yPos = static_cast<uint32_t>(position.y);
-
-			//position.x = xPos;
-			//position.y = yPos;
-
 			minValue.x = min(minValue.x, position.x);
 			minValue.y = min(minValue.y, position.y);
 			minValue.z = min(minValue.z, position.z);
@@ -235,7 +229,7 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 
 	for (Vertex& vertex : Vertices)
 	{
-		Coords.x = static_cast<int>(vertex.Position.x);
+		Coords.x = static_cast<int>(vertex.Position. x);
 		Coords.y = static_cast<int>(vertex.Position.z);
 		Coords >>= Precision;
 
@@ -254,23 +248,49 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 	
 	for (int i = 0; i < triangulatedMesh.Vertices.size(); i++)
 	{
-		if (counter[i] == 0)
+		if (counter[i] <= 0)
 		{
-			//if ((i + 1) % xLength != 0)
-			//{
-			//	triangulatedMesh.Vertices[i].Position.z += triangulatedMesh.Vertices[i + 1].Position.z;
-			//	counter[i]++;
-			//}
+			if ((i + xLength) < triangulatedMesh.Vertices.size())
+			{
+				if (counter[i + xLength] != 0)
+				{
+					triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i + xLength].Position.y / counter[i + xLength]);
+					//triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + xLength].Color;
+					counter[i]++;
+				}
+		
+			}
 			if (i - xLength >= 0)
 			{
-
-				triangulatedMesh.Vertices[i].Position.y = triangulatedMesh.Vertices[i - xLength].Position.y;
+				triangulatedMesh.Vertices[i].Position.y += triangulatedMesh.Vertices[i - xLength].Position.y;
 				triangulatedMesh.Vertices[i].Color = triangulatedMesh.Vertices[i - xLength].Color;
 				counter[i]++;
 			}
+			if ((i % (xLength + 1)) != 0 && (i + 1) < triangulatedMesh.Vertices.size())
+			{
+				if (counter[i + 1] != 0)
+				{
+					triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i + 1].Position.y / counter[i + 1]);
+					//triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + xLength].Color;
+					counter[i]++;
+				}
+			}
+			if ((i % xLength) != 0 && (i - 1) >= 0)
+			{
+				triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i - 1].Position.y);
+				counter[i]++;
+			}
+
+			if (counter[i] <= 0)
+			{
+				counter[i] = 1;
+			}
+
+			triangulatedMesh.Vertices[i].Position.y /= counter[i];
 		}
 		else
 		{
+
 			triangulatedMesh.Vertices[i].Position.y /= counter[i];
 			triangulatedMesh.Vertices[i].Color /= counter[i];
 		}
@@ -379,6 +399,9 @@ void Mesh::rebind_Buffer(int drawType)
 
 void Mesh::delete_Buffer()
 {
+
+	Vertices.clear();
+	Triangles.clear();
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);

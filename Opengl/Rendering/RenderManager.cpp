@@ -165,6 +165,8 @@ void RenderManager::load_MeshesFromFolder()
 		{
 			FlexTimer timer("Mesh loading timer");
 			MeshMap[FileName].load_MeshTxt(file.path().string(), MeshMap["TriangulatedMesh"]);
+
+			MeshMap[FileName].delete_Buffer();
 		}
 
 		std::cout << FileName << " : Mesh loaded" << std::endl;
