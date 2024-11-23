@@ -10,6 +10,10 @@ void SceneManager::begin_Scene()
 	PunktSkyModel.init_GameObject();
 	PunktSkyModel.set_GameObjectPosition(glm::vec3(0.f));
 
+	TriangulatedTerrain.init_GameObject();
+
+	ActiveEngineCamera.set_Terrain(&TriangulatedTerrain);
+
 	SplineSurface.init_GameObject();
 	SplineSurface.set_GameObjectPosition(glm::vec3(0.f, 50.f, 0.f));
 
@@ -21,9 +25,9 @@ void SceneManager::begin_Scene()
 	//SphereObject2.set_GameObjectPosition(glm::vec3(10.f, 0.f, 0.f));
 	//SphereObject2.set_GameObjectVelocity(glm::vec3(-1.f, 0.f, 0.f));
 
-	//Wall1.init_GameObject();
-	//Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 0.f));
-	//Wall1.BoxModel.scale_Model(glm::vec3(100.f, 1.f, 1.f));
+	Wall1.init_GameObject();
+	Wall1.set_GameObjectPosition(glm::vec3(0.f, 0.f, 0.f));
+	Wall1.BoxModel.scale_Model(glm::vec3(100.f, 1.f, 1.f));
 
 	//Wall2.init_GameObject();
 	//Wall2.set_GameObjectPosition(glm::vec3(0.f, 0.f, -20.f));

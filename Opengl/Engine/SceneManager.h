@@ -15,6 +15,7 @@
 #include "../GameObjects/LightCube.h"
 #include "../GameObjects/PunktSky.h"
 #include "../GameObjects/BSplineSurface.h"
+#include "../GameObjects/Terrain.h"
 
 class SceneManager
 {
@@ -40,7 +41,7 @@ private:
 	//Start of Temporary Code
 	LightCube SceneLight;
 	EngineCamera ActiveEngineCamera;
-
+	Terrain TriangulatedTerrain;
 
 	BasicSphere SphereObject;
 	BasicSphere SphereObject2;

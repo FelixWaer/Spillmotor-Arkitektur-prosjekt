@@ -11,14 +11,14 @@ void GameObject::tick(float deltaTime)
 {
 	//GameObjectPosition += GameObjectVelocity * GameObjectSpeed * deltaTime;
 
-	if (GravityEnabled == true)
-	{
-		GameObjectVelocity.y -= 9.81f * deltaTime;
-	}
-
+	//if (GravityEnabled == true)
+	//{
+	//	GameObjectVelocity.y -= 9.81f * deltaTime;
+	//}
+	GameObjectVelocity += Acceleration * deltaTime;
 	GameObjectPosition += GameObjectVelocity * deltaTime;
 
-	GameObjectVelocity -= (GameObjectVelocity * 0.99f) * deltaTime;
+	//GameObjectVelocity -= (GameObjectVelocity * 0.99f) * deltaTime;
 }
 
 void GameObject::game_Start()
@@ -38,6 +38,11 @@ glm::vec3& GameObject::get_GameObjectPosition()
 glm::vec3* GameObject::get_GameObjectPositionPtr()
 {
 	return &GameObjectPosition;
+}
+
+glm::vec3& GameObject::get_Acceleration()
+{
+	return Acceleration;
 }
 
 void GameObject::set_GameObjectVelocity(const glm::vec3& newVelocity)

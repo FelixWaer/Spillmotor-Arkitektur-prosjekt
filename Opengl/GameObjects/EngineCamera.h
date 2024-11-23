@@ -5,12 +5,14 @@
 #include "../GameObject Components/SphereCollision.h"
 
 class BasicSphere;
+class Terrain;
 
 class EngineCamera : public GameObject
 {
 public:
 	void game_Start() override;
 	void tick(float deltaTime) override;
+	void set_Terrain(Terrain* terrain);
 
 private:
 	void input_WFunction();
@@ -32,6 +34,7 @@ private:
 	Event* CollisionEvent = nullptr;
 
 	Camera ActiveCamera;
+	Terrain* TriangulatedTerrain = nullptr;
 	std::vector<BasicSphere*> Balls;
 };
 

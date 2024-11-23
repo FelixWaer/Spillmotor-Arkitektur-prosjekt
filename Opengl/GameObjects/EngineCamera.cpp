@@ -45,6 +45,11 @@ void EngineCamera::tick(float deltaTime)
 	set_GameObjectPosition(ActiveCamera.get_CameraPosition());
 }
 
+void EngineCamera::set_Terrain(Terrain* terrain)
+{
+	TriangulatedTerrain = terrain;
+}
+
 void EngineCamera::input_WFunction()
 {
 	ActiveCamera.move_CameraFront(true);
@@ -86,6 +91,7 @@ void EngineCamera::input_RMouseFunction()
 
 	tempBall->init_GameObject();
 	tempBall->set_GameObjectPosition(get_GameObjectPosition());
+	tempBall->set_Terrain(TriangulatedTerrain);
 	//tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget()*50.f);
 	//tempBall->Mass = 50.f;
 	//tempBall->enable_Gravity(true);

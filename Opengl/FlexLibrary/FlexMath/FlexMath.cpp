@@ -4,27 +4,41 @@
 
 namespace FLXMath
 {
-	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, const glm::vec3& position)
+	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, glm::vec3& aVector)
 	{
-		glm::vec3 tempVector = x;
-		tempVector.y -= 0.5f;
+	/*	tempVector.z = x.y;
+		tempVector.y = x.z;*/
+		//tempVector.y -= 0.5f;
 
 		float A = calculate_Normal(Q - P, R - P);
 
-		float U = calculate_Normal((Q + position) - tempVector, (R + position) - tempVector);
-		float V = calculate_Normal((R + position) - tempVector, (P + position) - tempVector);
-		float W = 1 - U - V;
+		float U = calculate_Normal((Q - x), (R - x)) / A;
+		float V = calculate_Normal((R - x), (P - x)) / A;
+		float W = 1.f - U - V;
 
 		if (U >= 0 && V >= 0 && W >= 0)
 		{
 			float triangleHeight = U * (P.y) + V * (Q.y) + W * (R.y);
-			x.y = (triangleHeight + position.y);
+			x.y = triangleHeight + 1.f;
+
+			aVector = calculate_AccelerationVector(P, Q, R);
+
 			return true;
 		}
 		else
 		{
 			return false;
 		}
+	}
+
+	glm::vec3 calculate_AccelerationVector(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c)
+	{
+		//normal
+		glm::vec3 n = glm::cross(a - b, c - a);
+		//gravity
+		float g = 9.81f;
+
+		return glm::vec3(n.y * n.x * g, (n.y * n.y * g) - 1.f, n.y * n.z * g);
 	}
 
 	void calculate_TriangleNormal(Vertex& vertexA, Vertex& vertexB, Vertex& vertexC)

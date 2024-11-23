@@ -152,6 +152,7 @@
     <ClCompile Include="GameObjects\EngineCamera.cpp" />
     <ClCompile Include="GameObjects\LightCube.cpp" />
     <ClCompile Include="GameObjects\PunktSky.cpp" />
+    <ClCompile Include="GameObjects\Terrain.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rendering\Camera.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="GameObjects\EngineCamera.h" />
     <ClInclude Include="GameObjects\LightCube.h" />
     <ClInclude Include="GameObjects\PunktSky.h" />
+    <ClInclude Include="GameObjects\Terrain.h" />
     <ClInclude Include="ProjectDependencies\Includes\glad\glad.h" />
     <ClInclude Include="ProjectDependencies\Includes\GLFW\glfw3.h" />
     <ClInclude Include="ProjectDependencies\Includes\GLFW\glfw3native.h" />

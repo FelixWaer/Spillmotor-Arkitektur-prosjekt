@@ -16,4 +16,6 @@ namespace FLXModel
 	void create_Ball(Mesh& mesh, const glm::vec3& color, int numberOfSubDiv);
 
 	void create_BSplineSurface(Mesh& surface, glm::vec3 color);
+
+	glm::vec2 triangulate_Terrain(Mesh& pointCloud, Mesh& triangulatedMesh);
 }

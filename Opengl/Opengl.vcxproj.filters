@@ -125,6 +125,9 @@
     <ClCompile Include="GameObjects\BSplineSurface.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\Terrain.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectDependencies\Includes\glad\glad.h">
@@ -224,6 +227,9 @@
       <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\BSplineSurface.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Terrain.h">
       <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>

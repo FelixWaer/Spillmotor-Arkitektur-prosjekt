@@ -117,11 +117,7 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 	float vectorSize = 0;
 	std::string line;
 
-	uint32_t xPos;
-	uint32_t yPos;
-
 	glm::vec3 minValue = glm::vec3(FLT_MAX);
-	glm::vec3 maxValue = glm::vec3(FLT_MIN);
 
 	while (file.eof() == false)
 	{
@@ -157,6 +153,7 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 			glm::vec3 color = glm::vec3(1.f);
 			//file >> position.x >> position.y >> position.z >> normal.x >> normal.y >> normal.z >> color.r >> color.g >> color.b;
 			file >> position.x >> position.z >> position.y >> color.r >> color.g >> color.b;
+			//file >> position.x >> position.z >> position.y;
 
 			std::getline(file, line);
 
@@ -164,9 +161,9 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 			minValue.y = min(minValue.y, position.y);
 			minValue.z = min(minValue.z, position.z);
 
-			maxValue.x = max(maxValue.x, position.x);
-			maxValue.y = max(maxValue.y, position.y);
-			maxValue.z = max(maxValue.z, position.z);
+			MaxSize.x = max(MaxSize.x, position.x);
+			MaxSize.y = max(MaxSize.y, position.y);
+			MaxSize.z = max(MaxSize.z, position.z);
 
 			Vertices.emplace_back(position, normal, color, glm::vec2(0.0f));
 			break;
@@ -182,27 +179,24 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 		}
 	}
 
-	FlexTimer timer("Triangulating Part");
+	for (Vertex& vertex : Vertices)
+	{
+		vertex.Position -= minValue;
+	}
+
+	MaxSize -= minValue;
+
+	/*FlexTimer timer("Triangulating Part");
 
 	int Precision = 5;
 	int PrecisionSize = 1 << Precision;
 	int resolution = 100;
 	std::cout << "Precision Size:" << PrecisionSize << std::endl;
 
-	for (Vertex& vertex : Vertices)
-	{
-		vertex.Position -= minValue;
-	}
+	MaxSize *= resolution;
 
-	maxValue -= minValue;
-
-	maxValue *= resolution;
-
-	std::cout << minValue.x << " " << minValue.y << " " << minValue.z << std::endl;
-	std::cout << maxValue.x << " " << maxValue.y << " " << maxValue.z << std::endl;
-
-	int xLength = static_cast<int>(maxValue.x);
-	int zLength = static_cast<int>(maxValue.z);
+	int xLength = static_cast<int>(MaxSize.x);
+	int zLength = static_cast<int>(MaxSize.z);
 
 	xLength >>= Precision;
 	xLength++;
@@ -253,7 +247,7 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 				if (counter[i + xLength] != 0)
 				{
 					triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i + xLength].Position.y / counter[i + xLength]);
-					//triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + xLength].Color;
+					triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + xLength].Color / glm::vec3(counter[i + xLength]);
 					counter[i]++;
 				}
 		
@@ -261,7 +255,7 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 			if (i - xLength >= 0)
 			{
 				triangulatedMesh.Vertices[i].Position.y += triangulatedMesh.Vertices[i - xLength].Position.y;
-				triangulatedMesh.Vertices[i].Color = triangulatedMesh.Vertices[i - xLength].Color;
+				triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i - xLength].Color;
 				counter[i]++;
 			}
 			if ((i % (xLength + 1)) != 0 && (i + 1) < triangulatedMesh.Vertices.size())
@@ -269,13 +263,14 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 				if (counter[i + 1] != 0)
 				{
 					triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i + 1].Position.y / counter[i + 1]);
-					//triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + xLength].Color;
+					triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + 1].Color / glm::vec3(counter[i + 1]);
 					counter[i]++;
 				}
 			}
 			if ((i % xLength) != 0 && (i - 1) >= 0)
 			{
 				triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i - 1].Position.y);
+				triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i - 1].Color;
 				counter[i]++;
 			}
 
@@ -285,6 +280,7 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 			}
 
 			triangulatedMesh.Vertices[i].Position.y /= counter[i];
+			triangulatedMesh.Vertices[i].Color /= counter[i];
 		}
 		else
 		{
@@ -307,8 +303,10 @@ void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
 		FLXMath::calculate_TriangleNormal(triangulatedMesh.Vertices[triangle.FirstIndex], 
 			triangulatedMesh.Vertices[triangle.SecondIndex], triangulatedMesh.Vertices[triangle.ThirdIndex]);
 	}
+	*/
+	std::cout << "Number of Vertices in Point Cloud: " << Vertices.size() << std::endl;
 
-	triangulatedMesh.bind_Buffer(GL_STATIC_DRAW);
+	//triangulatedMesh.bind_Buffer(GL_STATIC_DRAW);
 
 	bind_Buffer(GL_STATIC_DRAW);
 }

@@ -17,6 +17,7 @@ public:
 	void set_GameObjectPosition(glm::vec3 newPosition);
 	glm::vec3& get_GameObjectPosition();
 	glm::vec3* get_GameObjectPositionPtr();
+	glm::vec3& get_Acceleration();
 	void set_GameObjectVelocity(const glm::vec3& newVelocity);
 	glm::vec3& get_GameObjectVelocity();
 	void set_GameObjectFront(const glm::vec3& newFront);
@@ -28,6 +29,7 @@ public:
 	void enable_Gravity(bool enable);
 protected:
 	glm::vec3 GameObjectPosition = glm::vec3(0.f);
+	glm::vec3 Acceleration = glm::vec3(0.f);
 	glm::vec3 GameObjectVelocity = glm::vec3(0.f);
 	glm::vec3 GameObjectFront = glm::vec3(0.f);
 	float GameObjectSpeed = 0.f;

@@ -9,6 +9,7 @@
 #include "MeshData.h"
 #include "Mesh.h"
 #include "../FlexLibrary/FlexMath/FlexMath.h"
+#include "../FlexLibrary/FlexTimer/Flextimer.h"
 
 namespace FLXModel
 {
@@ -168,8 +169,6 @@ namespace FLXModel
 			vertex.Color = color;
 		}
 
-		std::cout << "Vertices" << mesh.Vertices.size() << std::endl;
-		std::cout << "Indices: " << mesh.Triangles.size() << std::endl;
 		mesh.bind_Buffer(GL_STATIC_DRAW);
 	}
 
@@ -288,5 +287,130 @@ namespace FLXModel
 		}
 
 		surface.bind_Buffer(GL_STATIC_DRAW);
+	}
+	glm::vec2 triangulate_Terrain(Mesh& pointCloud, Mesh& triangulatedMesh)
+	{
+		FlexTimer timer("Triangulating Part");
+
+		int Precision = 6;
+		int PrecisionSize = 1 << Precision;
+		int resolution = 100;
+		std::cout << "Precision Size:" << PrecisionSize << std::endl;
+
+		int xLength = static_cast<int>(pointCloud.MaxSize.x * resolution);
+		int zLength = static_cast<int>(pointCloud.MaxSize.z * resolution);
+
+		xLength >>= Precision;
+		xLength++;
+		zLength >>= Precision;
+		zLength++;
+
+		std::cout << "Why is this so big!: " << xLength << std::endl;
+		std::cout << "Why is this so big!: " << zLength << std::endl;
+
+		triangulatedMesh.Vertices.resize(xLength * zLength);
+
+		std::vector<int> counter;
+		counter.resize(xLength * zLength);
+
+		glm::ivec2 Coords(0);
+
+		for (int x = 0; x < xLength; x++)
+		{
+			for (int z = 0; z < zLength; z++)
+			{
+				triangulatedMesh.Vertices[x + (z * xLength)].Position = glm::vec3(x * PrecisionSize, 0.f, z * PrecisionSize) * 0.01f;
+			}
+		}
+
+		for (Vertex& vertex : pointCloud.Vertices)
+		{
+			Coords.x = static_cast<int>(vertex.Position.x * resolution);
+			Coords.y = static_cast<int>(vertex.Position.z * resolution);
+			Coords >>= Precision;
+
+			int index = Coords.x + (Coords.y * xLength);
+
+			//if (counter.contains(index) == false)
+			//{
+			//	counter[index] = 0;
+			//}
+			counter[index]++;
+
+			triangulatedMesh.Vertices[index].Position.y += vertex.Position.y;
+			triangulatedMesh.Vertices[index].Color += vertex.Color;
+		}
+
+		for (int i = 0; i < triangulatedMesh.Vertices.size(); i++)
+		{
+			if (counter[i] <= 0)
+			{
+				if ((i + xLength) < triangulatedMesh.Vertices.size())
+				{
+					if (counter[i + xLength] != 0)
+					{
+						triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i + xLength].Position.y / counter[i + xLength]);
+						triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + xLength].Color / glm::vec3(counter[i + xLength]);
+						counter[i]++;
+					}
+
+				}
+				if (i - xLength >= 0)
+				{
+					triangulatedMesh.Vertices[i].Position.y += triangulatedMesh.Vertices[i - xLength].Position.y;
+					triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i - xLength].Color;
+					counter[i]++;
+				}
+				if ((i % (xLength + 1)) != 0 && (i + 1) < triangulatedMesh.Vertices.size())
+				{
+					if (counter[i + 1] != 0)
+					{
+						triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i + 1].Position.y / counter[i + 1]);
+						triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i + 1].Color / glm::vec3(counter[i + 1]);
+						counter[i]++;
+					}
+				}
+				if ((i % xLength) != 0 && (i - 1) >= 0)
+				{
+					triangulatedMesh.Vertices[i].Position.y += (triangulatedMesh.Vertices[i - 1].Position.y);
+					triangulatedMesh.Vertices[i].Color += triangulatedMesh.Vertices[i - 1].Color;
+					counter[i]++;
+				}
+
+				if (counter[i] <= 0)
+				{
+					counter[i] = 1;
+				}
+
+				triangulatedMesh.Vertices[i].Position.y /= counter[i];
+				triangulatedMesh.Vertices[i].Color /= counter[i];
+			}
+			else
+			{
+
+				triangulatedMesh.Vertices[i].Position.y /= counter[i];
+				triangulatedMesh.Vertices[i].Color /= counter[i];
+			}
+
+			if ((i + 1) % xLength == 0 || (i + xLength) >= triangulatedMesh.Vertices.size())
+			{
+				continue;
+			}
+
+			triangulatedMesh.Triangles.emplace_back(i, i + xLength, (i + xLength) + 1);
+			triangulatedMesh.Triangles.emplace_back((i + xLength) + 1, i + 1, i);
+		}
+
+		for (const Triangle& triangle : triangulatedMesh.Triangles)
+		{
+			FLXMath::calculate_TriangleNormal(triangulatedMesh.Vertices[triangle.FirstIndex],
+				triangulatedMesh.Vertices[triangle.SecondIndex], triangulatedMesh.Vertices[triangle.ThirdIndex]);
+		}
+
+		std::cout << "Number of Vertices in triangulated Mesh: " << triangulatedMesh.Vertices.size() << std::endl;
+
+		triangulatedMesh.bind_Buffer(GL_STATIC_DRAW);
+
+		return glm::vec2(xLength, Precision);
 	}
 }

@@ -18,6 +18,7 @@ public:
 
 	std::vector<Vertex> Vertices;
 	std::vector<Triangle> Triangles;
+	glm::vec3 MaxSize = glm::vec3(FLT_MIN);
 private:
 	unsigned int VAO = 0;
 	unsigned int VBO = 0;

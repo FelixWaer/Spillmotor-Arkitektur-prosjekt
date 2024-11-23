@@ -5,7 +5,9 @@ struct Vertex;
 
 namespace FLXMath
 {
-	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, const glm::vec3& position);
+	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, glm::vec3& aVector);
+
+	glm::vec3 calculate_AccelerationVector(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c);
 
 	void calculate_TriangleNormal(Vertex& vertexA, Vertex& vertexB, Vertex& vertexC);
 
