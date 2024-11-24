@@ -24,6 +24,7 @@ private:
 	glm::vec3 newVelocity = glm::vec3(0.f);
 
 	void collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition);
+	void bounce_BallOfGround(glm::vec3& surfaceNormal);
 	void turn_OnGravityButton();
 };
 

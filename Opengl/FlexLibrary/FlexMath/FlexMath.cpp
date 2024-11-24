@@ -1,15 +1,16 @@
 #include "FlexMath.h"
 
+#include <iostream>
+
 #include "../../Rendering/MeshData.h"
 
 namespace FLXMath
 {
-	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, glm::vec3& aVector)
-	{
-	/*	tempVector.z = x.y;
-		tempVector.y = x.z;*/
-		//tempVector.y -= 0.5f;
+	constexpr float radianConvert = 180.f / 3.14159f;
+	constexpr float g = 9.81f;
 
+	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, glm::vec3& aVector, float& height)
+	{
 		float A = calculate_Normal(Q - P, R - P);
 
 		float U = calculate_Normal((Q - x), (R - x)) / A;
@@ -19,7 +20,7 @@ namespace FLXMath
 		if (U >= 0 && V >= 0 && W >= 0)
 		{
 			float triangleHeight = U * (P.y) + V * (Q.y) + W * (R.y);
-			x.y = triangleHeight + 1.f;
+			height = triangleHeight + 1.f;
 
 			aVector = calculate_AccelerationVector(P, Q, R);
 
@@ -36,9 +37,20 @@ namespace FLXMath
 		//normal
 		glm::vec3 n = glm::cross(a - b, c - a);
 		//gravity
-		float g = 9.81f;
 
 		return glm::vec3(n.y * n.x * g, (n.y * n.y * g) - 1.f, n.y * n.z * g);
+	}
+
+	float calculate_SurfaceAngle(glm::vec3 surfaceNormal)
+	{
+		glm::vec3 groundNormal(0.f, 1.f, 0.f);
+
+		float dotProduct = glm::dot(surfaceNormal, groundNormal);
+		float absolute = glm::length(surfaceNormal) * glm::length(groundNormal);
+
+		float angle = acos(dotProduct / absolute) * radianConvert;
+
+		return angle;
 	}
 
 	void calculate_TriangleNormal(Vertex& vertexA, Vertex& vertexB, Vertex& vertexC)

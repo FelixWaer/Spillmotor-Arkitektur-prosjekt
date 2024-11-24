@@ -12,7 +12,8 @@ public:
 	void game_Start() override;
 	void tick(float deltaTime) override;
 
-	void get_TerrainHeight(BasicSphere* sphere);
+	float get_TerrainHeight(BasicSphere* sphere);
+	bool check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal);
 private:
 	Model TerrainModel;
 	int TerrainLength = 0;

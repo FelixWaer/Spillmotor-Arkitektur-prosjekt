@@ -6,7 +6,7 @@
 #include "../Engine/EngineManager.h"
 #include "../Engine/EventCallback.h"
 #include "../Engine/Input.h"
-#include "../FlexLibrary/FlexMath/FlexMath.h"0+pp
+#include "../FlexLibrary/FlexMath/FlexMath.h"
 
 void BasicSphere::game_Start()
 {
@@ -45,6 +45,8 @@ void BasicSphere::game_Start()
 
 	std::cout << "xpos" << get_GameObjectPosition().x << std::endl;
 
+	get_Mass() = 5.f;
+
 	//FLXMath::calculate_PointOnTriangle(get_GameObjectPosition(), test->Vertices[index].Position,
 	//	test->Vertices[index + 1355], test->Vertices[index + 1], get_GameObjectPosition())
 }
@@ -60,7 +62,23 @@ void BasicSphere::tick(float deltaTime)
 
 	if (TriangulatedTerrain != nullptr)
 	{
-		TriangulatedTerrain->get_TerrainHeight(this);
+		float height = TriangulatedTerrain->get_TerrainHeight(this);
+
+		if (get_GameObjectPosition().y < height)
+		{
+			get_GameObjectPosition().y = height;
+		}
+		else
+		{
+			set_Acceleration(glm::vec3(0.f, -9.81f, 0.f));
+		}
+
+		glm::vec3 surfaceNormal(0.f);
+		if (TriangulatedTerrain->check_IfHitWal(this, surfaceNormal) == true)
+		{
+			bounce_BallOfGround(surfaceNormal);
+			//std::cout << "you are hitting the wall" << std::endl;
+		}
 	}
 
 }
@@ -79,7 +97,7 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPo
 		glm::vec3 directionVector = otherGameObject->get_GameObjectPosition() - get_GameObjectPosition();
 		float distance = 2.f - glm::length(directionVector);
 		glm::vec3 directionVectorNormal = glm::normalize(directionVector);
-		get_GameObjectPosition() += -directionVectorNormal * (distance * 0.5f);
+		get_GameObjectPosition() += -directionVectorNormal * (distance * 0.5f);	
 
 		directionVector = get_GameObjectPosition() - otherGameObject->get_GameObjectPosition();
 		float speed = glm::length(otherSphere->get_GameObjectVelocity()) + glm::length(get_GameObjectVelocity());
@@ -111,6 +129,25 @@ void BasicSphere::collision_Physics(GameObject* otherGameObject, glm::vec3 hitPo
 		test += get_GameObjectVelocity();
 		set_GameObjectVelocity(glm::normalize(test)*speed);
 	}
+}
+
+void BasicSphere::bounce_BallOfGround(glm::vec3& surfaceNormal)
+{
+	//glm::vec3 hitPositionNormal = glm::normalize(hitPosition - get_GameObjectPosition());
+	//float length = glm::length(hitPosition - get_GameObjectPosition());
+	//get_GameObjectPosition() += -hitPositionNormal * (1.f - length);
+
+	std::cout << "Before speed" << glm::length(get_GameObjectVelocity()) << std::endl;
+
+	float speed = glm::length(get_GameObjectVelocity()) * 0.5f;
+	float dotProduct = glm::dot(get_GameObjectVelocity(), surfaceNormal);
+	glm::vec3 test = surfaceNormal * dotProduct;
+
+	test *= -2;
+	test += glm::normalize(get_GameObjectVelocity());
+	set_GameObjectVelocity(glm::normalize(test) * speed);
+
+	std::cout << "After speed" << speed << std::endl;
 }
 
 void BasicSphere::turn_OnGravityButton()

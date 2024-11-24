@@ -15,8 +15,10 @@ void GameObject::tick(float deltaTime)
 	//{
 	//	GameObjectVelocity.y -= 9.81f * deltaTime;
 	//}
-	GameObjectVelocity += Acceleration * deltaTime;
+	
 	GameObjectPosition += GameObjectVelocity * deltaTime;
+	GameObjectVelocity += Mass * Acceleration * deltaTime;
+
 
 	//GameObjectVelocity -= (GameObjectVelocity * 0.99f) * deltaTime;
 }
@@ -38,6 +40,11 @@ glm::vec3& GameObject::get_GameObjectPosition()
 glm::vec3* GameObject::get_GameObjectPositionPtr()
 {
 	return &GameObjectPosition;
+}
+
+void GameObject::set_Acceleration(glm::vec3 newAcceleration)
+{
+	Acceleration = newAcceleration;
 }
 
 glm::vec3& GameObject::get_Acceleration()
@@ -74,6 +81,11 @@ void GameObject::set_GameObjectSpeed(float newSpeed)
 float& GameObject::get_GameObjectSpeed()
 {
 	return GameObjectSpeed;
+}
+
+float& GameObject::get_Mass()
+{
+	return Mass;
 }
 
 void GameObject::add_Tag(const std::string& tag)
