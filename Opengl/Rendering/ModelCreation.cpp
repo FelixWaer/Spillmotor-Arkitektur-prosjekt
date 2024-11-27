@@ -288,7 +288,7 @@ namespace FLXModel
 
 		surface.bind_Buffer(GL_STATIC_DRAW);
 	}
-	glm::vec2 triangulate_Terrain(Mesh& pointCloud, Mesh& triangulatedMesh)
+	glm::vec3 triangulate_Terrain(Mesh& pointCloud, Mesh& triangulatedMesh)
 	{
 		FlexTimer timer("Triangulating Part");
 
@@ -411,6 +411,6 @@ namespace FLXModel
 
 		triangulatedMesh.bind_Buffer(GL_STATIC_DRAW);
 
-		return glm::vec2(xLength, Precision);
+		return glm::vec3(Precision, xLength, zLength);
 	}
 }

@@ -17,7 +17,7 @@ void GameObject::tick(float deltaTime)
 	//}
 	
 	GameObjectPosition += GameObjectVelocity * deltaTime;
-	GameObjectVelocity += Mass * Acceleration * deltaTime;
+	GameObjectVelocity += Acceleration * deltaTime;
 
 
 	//GameObjectVelocity -= (GameObjectVelocity * 0.99f) * deltaTime;

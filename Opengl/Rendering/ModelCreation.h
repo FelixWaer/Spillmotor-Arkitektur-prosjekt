@@ -17,5 +17,5 @@ namespace FLXModel
 
 	void create_BSplineSurface(Mesh& surface, glm::vec3 color);
 
-	glm::vec2 triangulate_Terrain(Mesh& pointCloud, Mesh& triangulatedMesh);
+	glm::vec3 triangulate_Terrain(Mesh& pointCloud, Mesh& triangulatedMesh);
 }

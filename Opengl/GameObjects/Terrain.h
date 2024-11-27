@@ -15,8 +15,13 @@ public:
 	float get_TerrainHeight(BasicSphere* sphere);
 	bool check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal);
 private:
+	std::vector<float> GridFriction;
+
 	Model TerrainModel;
-	int TerrainLength = 0;
+	int TerrainXLength = 0;
+	int TerrainZLength = 0;
 	int Precision = 0;
+
+	void add_Friction();
 };
 

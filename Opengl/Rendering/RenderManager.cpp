@@ -85,11 +85,6 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 			shaderUsed.send_Bool("IsPunktSky", true);
 			render_Model(MeshMap[model->get_ModelMeshName()], true, false);
 		}
-		else if (model->get_ModelMeshName() == "TriangulatedMesh")
-		{
-			shaderUsed.send_Bool("IsPunktSky", false);
-			render_Model(MeshMap[model->get_ModelMeshName()], false, false);
-		}
 		else if(model->get_ModelMeshName() == "BSplineSurface")
 		{
 			shaderUsed.send_Bool("IsPunktSky", true);
@@ -97,6 +92,7 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 		}
 		else
 		{
+			shaderUsed.send_Bool("IsPunktSky", false);
 			render_Model(MeshMap[model->get_ModelMeshName()], false, false);
 		}
 	}

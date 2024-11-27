@@ -46,6 +46,7 @@ vec3 calculate_PointLight()
 	else
 	{
 		vec3 result = (ambient + diffuse + specular) * FragColor;
+		//vec3 result = (ambient + diffuse + specular) * vec3(0.5);
 
 		return result;
 	}

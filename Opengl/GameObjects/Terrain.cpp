@@ -10,10 +10,14 @@ void Terrain::game_Start()
 {
 	set_GameObjectPosition(glm::vec3(0.f));
 
-	glm::vec2 temp = FLXModel::triangulate_Terrain(*EngineManager::get()->get_Mesh("CroppedCloud"), *EngineManager::get()->get_Mesh("TriangulatedMesh"));
+	glm::vec3 temp = FLXModel::triangulate_Terrain(*EngineManager::get()->get_Mesh("Leira"), *EngineManager::get()->get_Mesh("TriangulatedMesh"));
 
-	TerrainLength = temp.x;
-	Precision = temp.y;
+	Precision = temp.x;
+	TerrainXLength = temp.y;
+	TerrainZLength = temp.z;
+
+	GridFriction.resize((TerrainXLength - 1) * (TerrainZLength - 1));
+	add_Friction();
 
 	TerrainModel.init_Model();
 	TerrainModel.attach_ToGameObject(this);
@@ -40,21 +44,23 @@ float Terrain::get_TerrainHeight(BasicSphere* sphere)
 	coords.y = static_cast<int>(sphere->get_GameObjectPosition().z * 100.f);
 
 	coords >>= Precision;
-	int index1 = coords.x + (coords.y * TerrainLength);
+	int index1 = coords.x + (coords.y * TerrainXLength);
+	int index2 = index1 + TerrainXLength;
 
-	if (index1 < 0)
+	if (index1 < 0 || index2 >= verticesRef.size())
 	{
 		return height;
 	}
 
-	int index2 = index1 + TerrainLength;
-	int index3 = index1 + TerrainLength + 1;
+	int index3 = index1 + TerrainXLength + 1;
 	int index4 = index1 + 1;
 
+	float frictionValue = GridFriction[index1];
+
 	FLXMath::calculate_PointOnTriangle(sphere->get_GameObjectPosition(), verticesRef[index1].Position,
-		verticesRef[index2].Position, verticesRef[index3].Position, sphere->get_Acceleration(), height);
+		verticesRef[index2].Position, verticesRef[index3].Position, sphere->get_Acceleration(), height, frictionValue);
 	FLXMath::calculate_PointOnTriangle(sphere->get_GameObjectPosition(), verticesRef[index1].Position,
-		verticesRef[index3].Position, verticesRef[index4].Position, sphere->get_Acceleration(), height);
+		verticesRef[index3].Position, verticesRef[index4].Position, sphere->get_Acceleration(), height, frictionValue);
 
 	return height;
 }
@@ -73,22 +79,22 @@ bool Terrain::check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal)
 	coords.y = static_cast<int>(point.z * 100.f);
 
 	coords >>= Precision;
-	int index1 = coords.x + (coords.y * TerrainLength);
+	int index1 = coords.x + (coords.y * TerrainXLength);
 
 	if (index1 < 0 || index1 >= verticesRef.size())
 	{
 		return false;
 	}
 
-	int index2 = index1 + TerrainLength;
-	int index3 = index1 + TerrainLength + 1;
+	int index2 = index1 + TerrainXLength;
+	int index3 = index1 + TerrainXLength + 1;
 	int index4 = index1 + 1;
 
 	glm::vec3 surfaceNormalTemp;
 	glm::vec3 temp(0.f);
 
 	if (FLXMath::calculate_PointOnTriangle(point, verticesRef[index1].Position,
-		verticesRef[index2].Position, verticesRef[index3].Position, temp, height) == true)
+		verticesRef[index2].Position, verticesRef[index3].Position, temp, height, 0.f ) == true)
 	{
 		
 		surfaceNormalTemp = glm::cross(verticesRef[index2].Position - verticesRef[index1].Position,
@@ -102,10 +108,21 @@ bool Terrain::check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal)
 
 	float surfaceAngle = FLXMath::calculate_SurfaceAngle(surfaceNormalTemp);
 	surfaceNormal = surfaceNormalTemp;
-	if (surfaceAngle >= 70.f && point.y <= height)
+	if (surfaceAngle >= 60.f && point.y <= height)
 	{
 		return true;
 	}
 
 	return false;
+}
+
+void Terrain::add_Friction()
+{
+	for (int x = 0; x < 600; x++)
+	{
+		for (int z = 0; z < 600; ++z)
+		{
+			GridFriction[x + (z * (TerrainXLength - 1))] = 1.f;
+		}
+	}
 }
