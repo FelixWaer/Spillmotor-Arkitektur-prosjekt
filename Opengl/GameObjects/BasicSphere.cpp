@@ -32,8 +32,6 @@ void BasicSphere::game_Start()
 	collider.attach_Event(PhysicsEvent);
 	Input::bind_EventToKey(GravityEvent, Key::E, KeyPress::OnPress);
 
-	std::cout << "xpos" << get_GameObjectPosition().x << std::endl;
-
 	get_Mass() = 1.f;
 }
 

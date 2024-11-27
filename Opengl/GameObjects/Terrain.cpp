@@ -5,6 +5,7 @@
 #include "../Rendering/RenderManager.h"
 #include "../GameObjects/BasicSphere.h"
 #include "../FlexLibrary/FlexMath/FlexMath.h"
+#include "glad/glad.h"
 
 void Terrain::game_Start()
 {
@@ -16,7 +17,9 @@ void Terrain::game_Start()
 	TerrainXLength = temp.y;
 	TerrainZLength = temp.z;
 
-	GridFriction.resize((TerrainXLength - 1) * (TerrainZLength - 1));
+	std::cout << TerrainXLength << std::endl;
+
+	GridFriction.resize((TerrainXLength - 1) * (TerrainZLength - 1), 0);
 	add_Friction();
 
 	TerrainModel.init_Model();
@@ -58,9 +61,23 @@ float Terrain::get_TerrainHeight(BasicSphere* sphere)
 	float frictionValue = GridFriction[index1];
 
 	FLXMath::calculate_PointOnTriangle(sphere->get_GameObjectPosition(), verticesRef[index1].Position,
-		verticesRef[index2].Position, verticesRef[index3].Position, sphere->get_Acceleration(), height, frictionValue);
+		verticesRef[index2].Position, verticesRef[index3].Position, sphere->get_Acceleration(), height);
 	FLXMath::calculate_PointOnTriangle(sphere->get_GameObjectPosition(), verticesRef[index1].Position,
-		verticesRef[index3].Position, verticesRef[index4].Position, sphere->get_Acceleration(), height, frictionValue);
+		verticesRef[index3].Position, verticesRef[index4].Position, sphere->get_Acceleration(), height);
+
+	glm::vec3 n = glm::cross(verticesRef[index2].Position - verticesRef[index1].Position,
+		verticesRef[index3].Position - verticesRef[index1].Position);
+	n = glm::normalize(n);
+
+	float friction = FLXMath::calculate_FrictionForce(n, frictionValue);
+
+	glm::vec3 frictionForce = glm::normalize(sphere->get_GameObjectVelocity());
+	frictionForce *= -1.f;
+	frictionForce *= friction;
+
+	//std::cout << "friction force: " << frictionForce.x << " " << frictionForce.y << " " << frictionForce.z << std::endl;
+
+	sphere->get_Acceleration() += frictionForce;
 
 	return height;
 }
@@ -94,7 +111,7 @@ bool Terrain::check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal)
 	glm::vec3 temp(0.f);
 
 	if (FLXMath::calculate_PointOnTriangle(point, verticesRef[index1].Position,
-		verticesRef[index2].Position, verticesRef[index3].Position, temp, height, 0.f ) == true)
+		verticesRef[index2].Position, verticesRef[index3].Position, temp, height) == true)
 	{
 		
 		surfaceNormalTemp = glm::cross(verticesRef[index2].Position - verticesRef[index1].Position,
@@ -118,11 +135,24 @@ bool Terrain::check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal)
 
 void Terrain::add_Friction()
 {
-	for (int x = 0; x < 600; x++)
+	std::vector<Vertex>& verticesRef = EngineManager::get()->get_Mesh("TriangulatedMesh")->Vertices;
+
+	for (int x = 0; x < 500; x++)
 	{
-		for (int z = 0; z < 600; ++z)
+		for (int z = 0; z < 600; z++)
 		{
-			GridFriction[x + (z * (TerrainXLength - 1))] = 1.f;
+			int index1 = x + (z * TerrainXLength);
+			int index2 = index1 + TerrainXLength;
+			int index3 = index1 + TerrainXLength + 1;
+			int index4 = index1 + 1;
+			GridFriction[index1] = 1.f;
+
+			verticesRef[index1].Color = glm::vec3(1.f, 0.f, 0.f);
+			verticesRef[index2].Color = glm::vec3(1.f, 0.f, 0.f);
+			verticesRef[index3].Color = glm::vec3(1.f, 0.f, 0.f);
+			verticesRef[index4].Color = glm::vec3(1.f, 0.f, 0.f);
 		}
 	}
+
+	EngineManager::get()->get_Mesh("TriangulatedMesh")->rebind_Buffer(GL_STATIC_DRAW);
 }

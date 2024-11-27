@@ -9,7 +9,7 @@ namespace FLXMath
 	constexpr float radianConvert = 180.f / 3.14159f;
 	constexpr float g = 9.81f;
 
-	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, glm::vec3& aVector, float& height, float frictionValue)
+	bool calculate_PointOnTriangle(glm::vec3& x, const glm::vec3& P, const glm::vec3& Q, const glm::vec3& R, glm::vec3& aVector, float& height)
 	{
 		float A = calculate_Normal(Q - P, R - P);
 
@@ -22,7 +22,7 @@ namespace FLXMath
 			float triangleHeight = U * (P.y) + V * (Q.y) + W * (R.y);
 			height = triangleHeight + 1.f;
 
-			aVector = calculate_AccelerationVector(P, Q, R, frictionValue);
+			aVector = calculate_AccelerationVector(P, Q, R);
 			height = triangleHeight + 1.f;
 			return true;
 		}
@@ -32,32 +32,38 @@ namespace FLXMath
 		}
 	}
 
-	glm::vec3 calculate_AccelerationVector(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c, float frictionValue)
+	glm::vec3 calculate_AccelerationVector(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c)
 	{
 		//normal
-		glm::vec3 n = glm::cross(a - b, c - a);
+		glm::vec3 n = glm::cross(b - a, c - a);
 		n = glm::normalize(n);
 
 		glm::vec3 accelerationForce(n.y * n.x * g, (n.y * n.y * g) - 1.f, n.y * n.z * g);
 
-		float angle = calculate_SurfaceAngle(n);
 
-		float friction = 1.f * g * cos(angle);
+		//glm::vec3 frictionForce = glm::normalize(accelerationForce);
+		////frictionForce *= -1;
+		//frictionForce *= friction;
+		////gravity
+
+		//std::cout << "Friction: " << frictionForce.x << " " << frictionForce.y << " " << frictionForce.z << std::endl;
+		//std::cout << "Friction acc: " << accelerationForce.x << " " << accelerationForce.y << " " << accelerationForce.z << std::endl;
+		//accelerationForce -= frictionForce;
+		//std::cout << "Friction after wdacc: " << accelerationForce.x << " " << accelerationForce.y << " " << accelerationForce.z << std::endl;
+		return accelerationForce;
+	}
+
+	float calculate_FrictionForce(const glm::vec3& normal, float frictionValue)
+	{
+		float angle = calculate_SurfaceAngle(normal);
+
+		float friction = frictionValue * g * cos(angle);
 		if (friction < 0)
 		{
 			friction *= -1.f;
 		}
 
-		glm::vec3 frictionForce = glm::normalize(accelerationForce);
-		//frictionForce *= -1;
-		frictionForce *= friction;
-		//gravity
-
-		std::cout << "Friction: " << frictionForce.x << " " << frictionForce.y << " " << frictionForce.z << std::endl;
-		std::cout << "Friction acc: " << accelerationForce.x << " " << accelerationForce.y << " " << accelerationForce.z << std::endl;
-		accelerationForce -= frictionForce;
-		std::cout << "Friction after wdacc: " << accelerationForce.x << " " << accelerationForce.y << " " << accelerationForce.z << std::endl;
-		return accelerationForce;
+		return friction;
 	}
 
 	float calculate_SurfaceAngle(glm::vec3 surfaceNormal)

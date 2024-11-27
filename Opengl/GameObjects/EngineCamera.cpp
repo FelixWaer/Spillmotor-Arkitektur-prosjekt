@@ -72,7 +72,6 @@ void EngineCamera::input_DFunction()
 
 void EngineCamera::input_LMouseFunction()
 {
-	std::cout << "Mouse pressed" << std::endl;
 	BasicSphere* tempBall = new BasicSphere;
 
 	tempBall->init_GameObject();
@@ -86,7 +85,6 @@ void EngineCamera::input_LMouseFunction()
 
 void EngineCamera::input_RMouseFunction()
 {
-	std::cout << "Mouse pressed" << std::endl;
 	BasicSphere* tempBall = new BasicSphere;
 
 	tempBall->init_GameObject();
