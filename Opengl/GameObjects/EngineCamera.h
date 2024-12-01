@@ -1,4 +1,6 @@
 #pragma once
+#include <queue>
+
 #include "../Engine/GameObject.h"
 #include "../Rendering/Camera.h"
 #include "../Engine/EventCallback.h"
@@ -35,6 +37,8 @@ private:
 
 	Camera ActiveCamera;
 	Terrain* TriangulatedTerrain = nullptr;
+	SphereCollision SphereCollider;
+	std::queue<GameObject*> SpheresInRange;
 	std::vector<BasicSphere*> Balls;
 };
 

@@ -137,15 +137,15 @@ void Terrain::add_Friction()
 {
 	std::vector<Vertex>& verticesRef = EngineManager::get()->get_Mesh("TriangulatedMesh")->Vertices;
 
-	for (int x = 0; x < 500; x++)
+	for (int x = 250; x < 500; x++)
 	{
-		for (int z = 0; z < 600; z++)
+		for (int z = 250; z < 600; z++)
 		{
 			int index1 = x + (z * TerrainXLength);
 			int index2 = index1 + TerrainXLength;
 			int index3 = index1 + TerrainXLength + 1;
 			int index4 = index1 + 1;
-			GridFriction[index1] = 1.f;
+			GridFriction[index1] = 0.3f;
 
 			verticesRef[index1].Color = glm::vec3(1.f, 0.f, 0.f);
 			verticesRef[index2].Color = glm::vec3(1.f, 0.f, 0.f);

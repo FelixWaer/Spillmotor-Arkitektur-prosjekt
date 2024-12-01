@@ -39,17 +39,6 @@ namespace FLXMath
 		n = glm::normalize(n);
 
 		glm::vec3 accelerationForce(n.y * n.x * g, (n.y * n.y * g) - 1.f, n.y * n.z * g);
-
-
-		//glm::vec3 frictionForce = glm::normalize(accelerationForce);
-		////frictionForce *= -1;
-		//frictionForce *= friction;
-		////gravity
-
-		//std::cout << "Friction: " << frictionForce.x << " " << frictionForce.y << " " << frictionForce.z << std::endl;
-		//std::cout << "Friction acc: " << accelerationForce.x << " " << accelerationForce.y << " " << accelerationForce.z << std::endl;
-		//accelerationForce -= frictionForce;
-		//std::cout << "Friction after wdacc: " << accelerationForce.x << " " << accelerationForce.y << " " << accelerationForce.z << std::endl;
 		return accelerationForce;
 	}
 
