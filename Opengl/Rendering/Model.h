@@ -41,11 +41,15 @@ public:
 	std::string& get_ModelMaterialName();
 	void set_ModelMaterial(const std::string& newMaterialName);
 
+	//Model Line
+	bool is_Line() const;
+	void set_ModelAsLine();
 private:
 	std::string ModelMeshName = "Cube";
 	std::string ModelMaterial = "BasicMaterial";
 
 	bool HidingModel = false;
+	bool IsLine = false;
 
 	glm::vec3* AttachedModelPosition = nullptr;
 	glm::vec3 ModelPosition = glm::vec3(0.f);

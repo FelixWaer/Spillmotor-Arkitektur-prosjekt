@@ -2,6 +2,7 @@
 #include "../Engine/GameObject.h"
 #include "../Rendering/Model.h"
 #include "../GameObject Components/SphereCollision.h"
+#include "../GameObjects/BSplineTracker.h"
 
 class Terrain;
 
@@ -20,7 +21,9 @@ private:
 	Event* PhysicsEvent = nullptr;
 	Event* GravityEvent = nullptr;
 	Terrain* TriangulatedTerrain = nullptr;
+	BSplineTracker BSpline;
 
+	float BSplineTimer = 0.f;
 	glm::vec3 newVelocity = glm::vec3(0.f);
 
 	void collision_Physics(GameObject* otherGameObject, glm::vec3 hitPosition);

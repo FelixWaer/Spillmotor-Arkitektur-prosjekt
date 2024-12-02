@@ -17,6 +17,7 @@ public:
 	void render_Scene(SceneManager* sceneToRender);
 
 	Mesh* get_Mesh(const std::string& meshName);
+	Mesh* create_Mesh(const std::string& meshName);
 private:
 	std::unordered_map<std::string, Shader> ShaderMap;
 	std::unordered_map<std::string, Mesh> MeshMap;
@@ -30,6 +31,6 @@ private:
 	void load_MeshesFromFolder();
 	void load_TexturesFromFolder();
 
-	void render_Model(Mesh& meshToRender, bool renderAsPoints, bool renderAsWireframe);
+	void render_Model(Mesh& meshToRender, bool renderAsPoints, bool renderAsWireframe, bool renderAsLine);
 };
 

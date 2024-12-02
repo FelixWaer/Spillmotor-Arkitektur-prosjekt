@@ -37,8 +37,7 @@ private:
 
 	Camera ActiveCamera;
 	Terrain* TriangulatedTerrain = nullptr;
-	SphereCollision SphereCollider;
-	std::queue<GameObject*> SpheresInRange;
+	//SphereCollision SphereCollider;
 	std::vector<BasicSphere*> Balls;
 };
 

@@ -78,22 +78,27 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 		if (model->get_ModelMeshName() == "CroppedCloud")
 		{
 			shaderUsed.send_Bool("IsPunktSky", true);
-			render_Model(MeshMap[model->get_ModelMeshName()], true, false);
+			render_Model(MeshMap[model->get_ModelMeshName()], true, false, model->is_Line());
 		}
 		else if (model->get_ModelMeshName() == "Leira")
 		{
 			shaderUsed.send_Bool("IsPunktSky", true);
-			render_Model(MeshMap[model->get_ModelMeshName()], true, false);
+			render_Model(MeshMap[model->get_ModelMeshName()], true, false, model->is_Line());
 		}
 		else if(model->get_ModelMeshName() == "BSplineSurface")
 		{
 			shaderUsed.send_Bool("IsPunktSky", true);
-			render_Model(MeshMap[model->get_ModelMeshName()], false, true);
+			render_Model(MeshMap[model->get_ModelMeshName()], false, true, model->is_Line());
+		}
+		else if(model->is_Line() == true)
+		{
+			shaderUsed.send_Bool("IsPunktSky", true);
+			render_Model(MeshMap[model->get_ModelMeshName()], false, false, model->is_Line());
 		}
 		else
 		{
 			shaderUsed.send_Bool("IsPunktSky", false);
-			render_Model(MeshMap[model->get_ModelMeshName()], false, false);
+			render_Model(MeshMap[model->get_ModelMeshName()], false, false, model->is_Line());
 		}
 	}
 }
@@ -106,6 +111,11 @@ Mesh* RenderManager::get_Mesh(const std::string& meshName)
 	}
 
 	return nullptr;
+}
+
+Mesh* RenderManager::create_Mesh(const std::string& meshName)
+{
+	return &MeshMap[meshName];
 }
 
 void RenderManager::load_ShadersFromFolder()
@@ -206,7 +216,7 @@ void RenderManager::load_TexturesFromFolder()
 	}
 }
 
-void RenderManager::render_Model(Mesh& meshToRender, bool renderAsPoints, bool renderAsWireframe)
+void RenderManager::render_Model(Mesh& meshToRender, bool renderAsPoints, bool renderAsWireframe, bool renderAsLine)
 {
 	meshToRender.bind_VAOBuffer();
 
@@ -218,6 +228,10 @@ void RenderManager::render_Model(Mesh& meshToRender, bool renderAsPoints, bool r
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawElements(GL_TRIANGLES, meshToRender.Triangles.size() * 3, GL_UNSIGNED_INT, 0);
+	}
+	else if(renderAsLine == true)
+	{
+		glDrawArrays(GL_LINE_STRIP, 0, meshToRender.Vertices.size());
 	}
 	else
 	{

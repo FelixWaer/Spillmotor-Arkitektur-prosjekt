@@ -16,13 +16,13 @@ void EngineCamera::game_Start()
 	EngineManager::get()->get_ActiveScene()->set_SceneCamera(&ActiveCamera);
 
 
-	SphereCollider.attach_ToGameObject(this);
-	SphereCollider.set_SphereRadius(5.f);
-	SphereCollider.enable_SphereVisible(true);
+	//SphereCollider.attach_ToGameObject(this);
+	//SphereCollider.set_SphereRadius(5.f);
+	//SphereCollider.enable_SphereVisible(true);
 
-	CollisionEvent = make_Event(this, &EngineCamera::collision_Function);
+	//CollisionEvent = make_Event(this, &EngineCamera::collision_Function);
 
-	SphereCollider.attach_Event(CollisionEvent);
+	//SphereCollider.attach_Event(CollisionEvent);
 
 	//Initialize Camera by adding it to the Camera Handler.
 	//Camera Handler does nothing right now
@@ -50,10 +50,10 @@ void EngineCamera::tick(float deltaTime)
 {
 	GameObject::tick(deltaTime);
 
-	for (int i = 0; i < SpheresInRange.size(); i++)
-	{
-		SpheresInRange.pop();
-	}
+	//for (int i = 0; i < SpheresInRange.size(); i++)
+	//{
+	//	SpheresInRange.pop();
+	//}
 
 	set_GameObjectPosition(ActiveCamera.get_CameraPosition());
 }
@@ -95,17 +95,17 @@ void EngineCamera::input_LMouseFunction()
 
 	//Balls.emplace_back(tempBall);
 
-	for (int i = 0; i < SpheresInRange.size(); i++)
+	for (BasicSphere* ball : Balls)
 	{
-		GameObject* sphere = SpheresInRange.front();
-		SpheresInRange.pop();
+		glm::vec3 direction = ball->get_GameObjectPosition() - get_GameObjectPosition();
+		if (glm::length(direction) <= 5.f)
+		{
+			direction = glm::normalize(direction);
 
-		glm::vec3 direction = sphere->get_GameObjectPosition() - get_GameObjectPosition();
-		std::cout << "dfdfdf" << std::endl;
-		direction = glm::normalize(direction);
-
-		sphere->set_Acceleration(direction * 1000.f);
+			ball->set_GameObjectVelocity(direction * 10.f);
+		}
 	}
+
 }
 
 void EngineCamera::input_RMouseFunction()
@@ -113,7 +113,7 @@ void EngineCamera::input_RMouseFunction()
 	BasicSphere* tempBall = new BasicSphere;
 
 	tempBall->init_GameObject();
-	tempBall->set_GameObjectPosition(get_GameObjectPosition());
+	tempBall->set_GameObjectPosition(get_GameObjectPosition() + ActiveCamera.get_CameraTarget()*2.f);
 	tempBall->set_Terrain(TriangulatedTerrain);
 	//tempBall->set_GameObjectVelocity(ActiveCamera.get_CameraTarget()*50.f);
 	//tempBall->Mass = 50.f;
@@ -136,6 +136,6 @@ void EngineCamera::collision_Function(GameObject* otherGameObject, glm::vec3 hit
 
 	if (otherGameObject->has_Tag("Ball") == true)
 	{
-		SpheresInRange.emplace(otherGameObject);
+
 	}
 }

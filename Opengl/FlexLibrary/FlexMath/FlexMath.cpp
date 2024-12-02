@@ -34,7 +34,7 @@ namespace FLXMath
 
 	glm::vec3 calculate_AccelerationVector(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c)
 	{
-		//normal
+		//calculating normal
 		glm::vec3 n = glm::cross(b - a, c - a);
 		n = glm::normalize(n);
 

@@ -100,3 +100,13 @@ void Model::set_ModelMaterial(const std::string& newMaterialName)
 {
 	ModelMaterial = newMaterialName;
 }
+
+bool Model::is_Line() const
+{
+	return IsLine;
+}
+
+void Model::set_ModelAsLine()
+{
+	IsLine = !IsLine;
+}

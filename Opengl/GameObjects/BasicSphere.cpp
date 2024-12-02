@@ -33,6 +33,8 @@ void BasicSphere::game_Start()
 	Input::bind_EventToKey(GravityEvent, Key::E, KeyPress::OnPress);
 
 	get_Mass() = 1.f;
+
+	BSpline.init_GameObject();
 }
 
 void BasicSphere::tick(float deltaTime)
@@ -65,6 +67,14 @@ void BasicSphere::tick(float deltaTime)
 		}
 	}
 
+	BSplineTimer += deltaTime;
+	if (BSplineTimer >= 1.f)
+	{
+		BSpline.add_ControlPoint(get_GameObjectPosition());
+		BSpline.generate_BSpline();
+
+		BSplineTimer = 0.f;
+	}
 }
 
 void BasicSphere::set_Terrain(Terrain* terrain)

@@ -102,6 +102,11 @@ Mesh* EngineManager::get_Mesh(const std::string& meshName)
 	return RenderManager.get_Mesh(meshName);
 }
 
+Mesh* EngineManager::create_Mesh(const std::string& meshName)
+{
+	return RenderManager.create_Mesh(meshName);
+}
+
 void EngineManager::tick_Engine()
 {
 	/*----Start of Temporary Code----*/
@@ -109,12 +114,15 @@ void EngineManager::tick_Engine()
 	float currentFrame = static_cast<float>(glfwGetTime());
 	DeltaTime = currentFrame - LastFrame;
 	LastFrame = currentFrame;
+	//FrameTimer += DeltaTime;
+	//counter++;
+
 	//std::cout << 1.f / DeltaTime << std::endl;
 
 	glClearColor(0.f, 0.f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glLineWidth(2);
+	glLineWidth(5);
 	glPointSize(3);
 
 	/*-----End of Temporary Code-----*/
@@ -124,4 +132,11 @@ void EngineManager::tick_Engine()
 
 	RenderManager.render_Scene(ActiveScene);
 	Input::reset_Input();
+
+	//if (FrameTimer >= 1.f)
+	//{
+	//	std::cout << "FPS: " << counter << std::endl;
+	//	counter = 0;
+	//	FrameTimer = 0;
+	//}
 }

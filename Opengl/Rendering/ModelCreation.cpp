@@ -331,10 +331,6 @@ namespace FLXModel
 
 			int index = Coords.x + (Coords.y * xLength);
 
-			//if (counter.contains(index) == false)
-			//{
-			//	counter[index] = 0;
-			//}
 			counter[index]++;
 
 			triangulatedMesh.Vertices[index].Position.y += vertex.Position.y;

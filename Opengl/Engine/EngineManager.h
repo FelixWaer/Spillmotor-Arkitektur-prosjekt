@@ -24,6 +24,7 @@ public:
 	int get_WindowHeight();
 	float get_AspectRatio();
 	Mesh* get_Mesh(const std::string& meshName);
+	Mesh* create_Mesh(const std::string& meshName);
 private:
 	EngineManager() = default;
 
@@ -35,6 +36,8 @@ private:
 
 	float DeltaTime = 0.f;
 	float LastFrame = 0.f;
+	float FrameTimer = 0.f;
+	int counter = 0;
 
 	void tick_Engine();
 };

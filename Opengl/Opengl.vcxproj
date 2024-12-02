@@ -149,6 +149,7 @@
     <ClCompile Include="GameObjects\BasicCube.cpp" />
     <ClCompile Include="GameObjects\BasicSphere.cpp" />
     <ClCompile Include="GameObjects\BSplineSurface.cpp" />
+    <ClCompile Include="GameObjects\BSplineTracker.cpp" />
     <ClCompile Include="GameObjects\EngineCamera.cpp" />
     <ClCompile Include="GameObjects\LightCube.cpp" />
     <ClCompile Include="GameObjects\PunktSky.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="GameObjects\BasicCube.h" />
     <ClInclude Include="GameObjects\BasicSphere.h" />
     <ClInclude Include="GameObjects\BSplineSurface.h" />
+    <ClInclude Include="GameObjects\BSplineTracker.h" />
     <ClInclude Include="GameObjects\EngineCamera.h" />
     <ClInclude Include="GameObjects\LightCube.h" />
     <ClInclude Include="GameObjects\PunktSky.h" />
