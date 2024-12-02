@@ -15,24 +15,13 @@ void EngineCamera::game_Start()
 	ActiveCamera.set_CameraSpeed(50.f);
 	EngineManager::get()->get_ActiveScene()->set_SceneCamera(&ActiveCamera);
 
-
-	//SphereCollider.attach_ToGameObject(this);
-	//SphereCollider.set_SphereRadius(5.f);
-	//SphereCollider.enable_SphereVisible(true);
-
-	//CollisionEvent = make_Event(this, &EngineCamera::collision_Function);
-
-	//SphereCollider.attach_Event(CollisionEvent);
-
-	//Initialize Camera by adding it to the Camera Handler.
-	//Camera Handler does nothing right now
-	//testCamera.init_Camera();
-
 	//InputEvent = new EventCallback(this, &EngineCamera::test_Function);
 	W_InputEvent = make_Event(this, &EngineCamera::input_WFunction);
 	A_InputEvent = make_Event(this, &EngineCamera::input_AFunction);
 	S_InputEvent = make_Event(this, &EngineCamera::input_SFunction);
 	D_InputEvent = make_Event(this, &EngineCamera::input_DFunction);
+	One_InputEvent = make_Event(this, &EngineCamera::input_OneFunction);
+	Two_InputEvent = make_Event(this, &EngineCamera::input_TwoFunction);
 	LM_InputEvent = make_Event(this, &EngineCamera::input_LMouseFunction);
 	RM_InputEvent = make_Event(this, &EngineCamera::input_RMouseFunction);
 	ESC_InputEvent = make_Event(this, &EngineCamera::input_ESCFunction);
@@ -41,6 +30,8 @@ void EngineCamera::game_Start()
 	Input::bind_EventToKey(A_InputEvent, Key::A, KeyPress::WhileHeldDown);
 	Input::bind_EventToKey(S_InputEvent, Key::S, KeyPress::WhileHeldDown);
 	Input::bind_EventToKey(D_InputEvent, Key::D, KeyPress::WhileHeldDown);
+	Input::bind_EventToKey(One_InputEvent, Key::One, KeyPress::OnPress);
+	Input::bind_EventToKey(Two_InputEvent, Key::Two, KeyPress::OnPress);
 	Input::bind_EventToKey(LM_InputEvent, Key::LMouse, KeyPress::OnPress);
 	Input::bind_EventToKey(RM_InputEvent, Key::RMouse, KeyPress::OnPress);
 	Input::bind_EventToKey(ESC_InputEvent, Key::ESCAPE, KeyPress::OnPress);
@@ -49,11 +40,6 @@ void EngineCamera::game_Start()
 void EngineCamera::tick(float deltaTime)
 {
 	GameObject::tick(deltaTime);
-
-	//for (int i = 0; i < SpheresInRange.size(); i++)
-	//{
-	//	SpheresInRange.pop();
-	//}
 
 	set_GameObjectPosition(ActiveCamera.get_CameraPosition());
 }
@@ -83,6 +69,25 @@ void EngineCamera::input_DFunction()
 	ActiveCamera.move_CameraSide(true);
 }
 
+void EngineCamera::input_OneFunction()
+{
+	if (TriangulatedTerrain == nullptr)
+	{
+		TriangulatedTerrain = new Terrain;
+		TriangulatedTerrain->init_GameObject();
+	}
+}
+
+void EngineCamera::input_TwoFunction()
+{
+	TriangulatedTerrain->add_FrictionPoint(get_GameObjectPosition());
+	MakeFriction++;
+	if (MakeFriction >= 2)
+	{
+		TriangulatedTerrain->create_Friction();
+	}
+}
+
 void EngineCamera::input_LMouseFunction()
 {
 	//BasicSphere* tempBall = new BasicSphere;
@@ -110,6 +115,11 @@ void EngineCamera::input_LMouseFunction()
 
 void EngineCamera::input_RMouseFunction()
 {
+	if (TriangulatedTerrain == nullptr)
+	{
+		return;
+	}
+
 	BasicSphere* tempBall = new BasicSphere;
 
 	tempBall->init_GameObject();

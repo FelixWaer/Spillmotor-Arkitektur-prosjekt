@@ -41,17 +41,8 @@ private:
 	//Start of Temporary Code
 	LightCube SceneLight;
 	EngineCamera ActiveEngineCamera;
-	Terrain TriangulatedTerrain;
+	//Terrain TriangulatedTerrain;
 
-	BasicSphere SphereObject;
-	BasicSphere SphereObject2;
-	BasicSphere SphereObject3;
-
-	BasicCube Wall1;
-	BasicCube Wall2;
-	BasicCube Wall3;
-	BasicCube Wall4;
-	BasicCube Floor;
 
 	PunktSky PunktSkyModel;
 	BSplineSurface SplineSurface;

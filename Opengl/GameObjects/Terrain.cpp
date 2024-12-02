@@ -11,7 +11,7 @@ void Terrain::game_Start()
 {
 	set_GameObjectPosition(glm::vec3(0.f));
 
-	glm::vec3 temp = FLXModel::triangulate_Terrain(*EngineManager::get()->get_Mesh("Leira"), *EngineManager::get()->get_Mesh("TriangulatedMesh"));
+	glm::vec3 temp = FLXModel::triangulate_Terrain(*EngineManager::get()->get_Mesh("Ski"), *EngineManager::get()->get_Mesh("TriangulatedMesh"));
 
 	Precision = temp.x;
 	TerrainXLength = temp.y;
@@ -19,8 +19,8 @@ void Terrain::game_Start()
 
 	std::cout << TerrainXLength << std::endl;
 
-	GridFriction.resize((TerrainXLength - 1) * (TerrainZLength - 1), 0);
-	add_Friction();
+	GridFriction.resize((TerrainXLength - 1) * (TerrainZLength - 1), 0.1);
+	//add_Friction();
 
 	TerrainModel.init_Model();
 	TerrainModel.attach_ToGameObject(this);
@@ -36,6 +36,19 @@ void Terrain::game_Start()
 void Terrain::tick(float deltaTime)
 {
 
+}
+
+void Terrain::add_FrictionPoint(const glm::vec3& newPoint)
+{
+	minFrictionSize = glm::min(newPoint, minFrictionSize);
+	maxFrictionSize = glm::max(newPoint, maxFrictionSize);
+
+	//std::cout << "xpos: " << newPoint.x << "ypos: " << newPoint.x << "zpos: " << newPoint.x << std::endl;
+}
+
+void Terrain::create_Friction()
+{
+	add_Friction();
 }
 
 float Terrain::get_TerrainHeight(BasicSphere* sphere)
@@ -98,7 +111,7 @@ bool Terrain::check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal)
 	coords >>= Precision;
 	int index1 = coords.x + (coords.y * TerrainXLength);
 
-	if (index1 < 0 || index1 >= verticesRef.size())
+	if (index1 < 0 || index1 + TerrainXLength + 1 >= verticesRef.size())
 	{
 		return false;
 	}
@@ -136,11 +149,22 @@ bool Terrain::check_IfHitWal(BasicSphere* sphere, glm::vec3& surfaceNormal)
 void Terrain::add_Friction()
 {
 	std::vector<Vertex>& verticesRef = EngineManager::get()->get_Mesh("TriangulatedMesh")->Vertices;
+	glm::ivec2 cordsMin;
+	cordsMin.x = minFrictionSize.x;
+	cordsMin.y = minFrictionSize.z;
+	glm::ivec2 cordsMax = maxFrictionSize;
+	cordsMax.x = maxFrictionSize.x;
+	cordsMax.y = maxFrictionSize.z;
+	cordsMin *= 100;
+	cordsMin >>= Precision;
+	cordsMax *= 100;
+	cordsMax >>= Precision;
 
-	for (int x = 250; x < 500; x++)
+	for (int x = cordsMin.x; x < cordsMax.x; x++)
 	{
-		for (int z = 250; z < 600; z++)
+		for (int z = cordsMin.y; z < cordsMax.y; z++)
 		{
+
 			int index1 = x + (z * TerrainXLength);
 			int index2 = index1 + TerrainXLength;
 			int index3 = index1 + TerrainXLength + 1;

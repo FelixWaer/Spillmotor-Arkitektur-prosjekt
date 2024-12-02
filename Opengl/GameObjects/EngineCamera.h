@@ -21,6 +21,8 @@ private:
 	void input_AFunction();
 	void input_SFunction();
 	void input_DFunction();
+	void input_OneFunction();
+	void input_TwoFunction();
 	void input_LMouseFunction();
 	void input_RMouseFunction();
 	void input_ESCFunction();
@@ -30,6 +32,8 @@ private:
 	Event* A_InputEvent = nullptr;
 	Event* S_InputEvent = nullptr;
 	Event* D_InputEvent = nullptr;
+	Event* One_InputEvent = nullptr;
+	Event* Two_InputEvent = nullptr;
 	Event* LM_InputEvent = nullptr;
 	Event* RM_InputEvent = nullptr;
 	Event* ESC_InputEvent = nullptr;
@@ -39,5 +43,6 @@ private:
 	Terrain* TriangulatedTerrain = nullptr;
 	//SphereCollision SphereCollider;
 	std::vector<BasicSphere*> Balls;
+	int MakeFriction = 0;
 };
 

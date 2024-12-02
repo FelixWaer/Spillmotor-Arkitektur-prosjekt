@@ -16,6 +16,7 @@ enum class Key
 	E = 69,
 	Zero = 48,
 	One = 49,
+	Two = 50,
 	ESCAPE = 256,
 	LMouse = 0,
 	RMouse = 1,
