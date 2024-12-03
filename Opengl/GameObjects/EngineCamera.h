@@ -8,6 +8,8 @@
 
 class BasicSphere;
 class Terrain;
+class PunktSky;
+class LightCube;
 
 class EngineCamera : public GameObject
 {
@@ -23,6 +25,10 @@ private:
 	void input_DFunction();
 	void input_OneFunction();
 	void input_TwoFunction();
+	void input_ThreeFunction();
+	void input_FourFunction();
+	void input_FiveFunction();
+	void input_SixFunction();
 	void input_LMouseFunction();
 	void input_RMouseFunction();
 	void input_ESCFunction();
@@ -34,6 +40,10 @@ private:
 	Event* D_InputEvent = nullptr;
 	Event* One_InputEvent = nullptr;
 	Event* Two_InputEvent = nullptr;
+	Event* Three_InputEvent = nullptr;
+	Event* Four_InputEvent = nullptr;
+	Event* Five_InputEvent = nullptr;
+	Event* Six_InputEvent = nullptr;
 	Event* LM_InputEvent = nullptr;
 	Event* RM_InputEvent = nullptr;
 	Event* ESC_InputEvent = nullptr;
@@ -41,8 +51,12 @@ private:
 
 	Camera ActiveCamera;
 	Terrain* TriangulatedTerrain = nullptr;
+	PunktSky* PunktSkyModel = nullptr;
+	LightCube* Light = nullptr;
 	//SphereCollision SphereCollider;
 	std::vector<BasicSphere*> Balls;
 	int MakeFriction = 0;
+	bool collisionCheck = false;
+	bool hidingPunktSky = false;
 };
 

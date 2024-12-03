@@ -10,7 +10,7 @@
 void Terrain::game_Start()
 {
 	set_GameObjectPosition(glm::vec3(0.f));
-
+	EngineManager::get()->create_Mesh("TriangulatedMesh");
 	glm::vec3 temp = FLXModel::triangulate_Terrain(*EngineManager::get()->get_Mesh("Ski"), *EngineManager::get()->get_Mesh("TriangulatedMesh"));
 
 	Precision = temp.x;
@@ -42,8 +42,6 @@ void Terrain::add_FrictionPoint(const glm::vec3& newPoint)
 {
 	minFrictionSize = glm::min(newPoint, minFrictionSize);
 	maxFrictionSize = glm::max(newPoint, maxFrictionSize);
-
-	//std::cout << "xpos: " << newPoint.x << "ypos: " << newPoint.x << "zpos: " << newPoint.x << std::endl;
 }
 
 void Terrain::create_Friction()
@@ -63,7 +61,7 @@ float Terrain::get_TerrainHeight(BasicSphere* sphere)
 	int index1 = coords.x + (coords.y * TerrainXLength);
 	int index2 = index1 + TerrainXLength;
 
-	if (index1 < 0 || index2 >= verticesRef.size())
+	if (index1 < 0 || index2 > verticesRef.size() - 1)
 	{
 		return height;
 	}
@@ -71,7 +69,11 @@ float Terrain::get_TerrainHeight(BasicSphere* sphere)
 	int index3 = index1 + TerrainXLength + 1;
 	int index4 = index1 + 1;
 
-	float frictionValue = GridFriction[index1];
+	float frictionValue = 0.1f;
+	if (index1 < GridFriction.size())
+	{
+		frictionValue = GridFriction[index1];
+	}
 
 	FLXMath::calculate_PointOnTriangle(sphere->get_GameObjectPosition(), verticesRef[index1].Position,
 		verticesRef[index2].Position, verticesRef[index3].Position, sphere->get_Acceleration(), height);
@@ -87,8 +89,6 @@ float Terrain::get_TerrainHeight(BasicSphere* sphere)
 	glm::vec3 frictionForce = glm::normalize(sphere->get_GameObjectVelocity());
 	frictionForce *= -1.f;
 	frictionForce *= friction;
-
-	//std::cout << "friction force: " << frictionForce.x << " " << frictionForce.y << " " << frictionForce.z << std::endl;
 
 	sphere->get_Acceleration() += frictionForce;
 
@@ -169,7 +169,7 @@ void Terrain::add_Friction()
 			int index2 = index1 + TerrainXLength;
 			int index3 = index1 + TerrainXLength + 1;
 			int index4 = index1 + 1;
-			GridFriction[index1] = 0.3f;
+			GridFriction[index1] = 0.4f;
 
 			verticesRef[index1].Color = glm::vec3(1.f, 0.f, 0.f);
 			verticesRef[index2].Color = glm::vec3(1.f, 0.f, 0.f);

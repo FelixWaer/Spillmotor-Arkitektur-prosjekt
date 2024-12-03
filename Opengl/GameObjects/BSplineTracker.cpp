@@ -52,6 +52,11 @@ void BSplineTracker::add_ControlPoint(glm::vec3& newControlPoint)
 	ControlPoints.emplace_back(newControlPoint);
 }
 
+void BSplineTracker::hide_BSpline(bool hidingBSpline)
+{
+	BSplineModel.hide_Model(hidingBSpline);
+}
+
 void BSplineTracker::generate_KnotVector(int NumberOfControlPoints)
 {
 	int numberOfKnots = NumberOfControlPoints + Degree + 1;

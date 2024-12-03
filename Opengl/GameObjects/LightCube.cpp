@@ -2,9 +2,9 @@
 
 void LightCube::game_Start()
 {
-	LightModel.init_Model();
-	LightModel.set_ModelMesh("ReverseCube");
-	LightModel.attach_ToGameObject(this);
+	//LightModel.init_Model();
+	//LightModel.set_ModelMesh("ReverseCube");
+	//LightModel.attach_ToGameObject(this);
 
 	light.init_Light();
 }

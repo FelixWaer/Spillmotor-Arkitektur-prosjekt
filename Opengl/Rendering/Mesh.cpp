@@ -102,7 +102,7 @@ void Mesh::load_MeshObj(const std::string& filePath)
     bind_Buffer(GL_STATIC_DRAW);
 }
 
-void Mesh::load_MeshTxt(const std::string& filePath, Mesh& triangulatedMesh)
+void Mesh::load_MeshTxt(const std::string& filePath)
 {
 	std::ifstream file;
 	file.open(filePath);
@@ -275,7 +275,7 @@ void Mesh::rebind_Buffer(int drawType)
 
 void Mesh::delete_Buffer()
 {
-
+	std::cout << "Deleted Buffer" << std::endl;
 	Vertices.clear();
 	Triangles.clear();
 	glDeleteVertexArrays(1, &VAO);

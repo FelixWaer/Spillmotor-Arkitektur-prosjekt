@@ -15,6 +15,8 @@ public:
 
 	float Mass = 1.f;
 	bool CanUpdateVelocity = false;
+
+	static inline bool HidingBSpline = false;
 private:
 	Model Cube;
 	SphereCollision collider;

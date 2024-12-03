@@ -9,7 +9,8 @@ public:
 	void game_Start() override;
 	void tick(float deltaTime) override;
 
-	glm::vec3 get_SlopeAcceleration(glm::vec3& position);
+	void hide_PunktSky(bool hidingModel);
+
 private:
 	Model TerrainModel;
 	Model TerrainPunktModel;

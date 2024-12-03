@@ -9,13 +9,14 @@ void PunktSky::game_Start()
 	//TerrainModel.set_ModelPosition(glm::vec3(0.f));
 	//TerrainModel.set_ModelMesh("TriangulatedMesh");
 	//TerrainModel.hide_Model(false);
+	set_GameObjectPosition(glm::vec3(0.f));
 
-	//TerrainPunktModel.init_Model();
-	//TerrainPunktModel.attach_ToGameObject(this);
-	//TerrainPunktModel.scale_Model(glm::vec3(1.f));
-	//TerrainPunktModel.rotate_Model(glm::vec3(0.f, 0.f, 0.f));
-	//TerrainPunktModel.set_ModelPosition(glm::vec3(0.f, 20.f, 0.f));
-	//TerrainPunktModel.set_ModelMesh("Leira");
+	TerrainPunktModel.init_Model();
+	TerrainPunktModel.attach_ToGameObject(this);
+	TerrainPunktModel.scale_Model(glm::vec3(1.f));
+	TerrainPunktModel.rotate_Model(glm::vec3(0.f, 0.f, 0.f));
+	TerrainPunktModel.set_ModelPosition(glm::vec3(0.f, 0.f, 0.f));
+	TerrainPunktModel.set_ModelMesh("Ski");
 	//TerrainPunktModel.hide_Model(false);
 }
 
@@ -23,13 +24,7 @@ void PunktSky::tick(float deltaTime)
 {
 }
 
-glm::vec3 PunktSky::get_SlopeAcceleration(glm::vec3& position)
+void PunktSky::hide_PunktSky(bool hidingModel)
 {
-	glm::ivec3 gridPos = position;
-
-	gridPos >>= 5;
-
-	//int index = gridPos.x + (gridPos.y * )
-
-	return glm::vec3();
+	TerrainPunktModel.hide_Model(hidingModel);
 }

@@ -35,19 +35,19 @@ public:
 	void add_SphereColliderToScene(SphereCollision* sphereCollider);
 	void add_ModelToScene(Model* model);
 	void add_LightToScene(Light* light);
+	void set_CollisionCheck(bool collisionOn);
 
 	void turnOff_DebugMode(bool turnOff);
 private:
 	//Start of Temporary Code
-	LightCube SceneLight;
 	EngineCamera ActiveEngineCamera;
 	//Terrain TriangulatedTerrain;
 
-
-	PunktSky PunktSkyModel;
 	BSplineSurface SplineSurface;
 	//End of Temporary Code
 	Camera* SceneCamera = nullptr;
+
+	bool CollisionOn = true;
 
 	std::vector<GameObject*> SceneGameObjects;
 	std::queue<GameObject*> GameObjectsToBeAdded;

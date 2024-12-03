@@ -68,7 +68,7 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 		}
 
 		glm::mat4 modelMatrix = glm::perspective(glm::radians(45.0f),
-			EngineManager::get()->get_AspectRatio(), 0.1f, 400.f) * sceneToRender->get_SceneCamera()->get_CameraView() * model->get_ModelMatrix();
+			EngineManager::get()->get_AspectRatio(), 0.1f, 1000.f) * sceneToRender->get_SceneCamera()->get_CameraView() * model->get_ModelMatrix();
 		shaderUsed.send_Matrix("PositionMatrix", model->get_ModelMatrix());
 		shaderUsed.send_Matrix("ModelMatrix", modelMatrix);
 		shaderUsed.send_Bool("HasTexture", modelMaterial.HasTexture);
@@ -80,7 +80,7 @@ void RenderManager::render_Scene(SceneManager* sceneToRender)
 			shaderUsed.send_Bool("IsPunktSky", true);
 			render_Model(MeshMap[model->get_ModelMeshName()], true, false, model->is_Line());
 		}
-		else if (model->get_ModelMeshName() == "Leira")
+		else if (model->get_ModelMeshName() == "Ski")
 		{
 			shaderUsed.send_Bool("IsPunktSky", true);
 			render_Model(MeshMap[model->get_ModelMeshName()], true, false, model->is_Line());
@@ -170,9 +170,7 @@ void RenderManager::load_MeshesFromFolder()
 		else if (file.path().extension() == ".txt")
 		{
 			FlexTimer timer("Mesh loading timer");
-			MeshMap[FileName].load_MeshTxt(file.path().string(), MeshMap["TriangulatedMesh"]);
-
-			//MeshMap[FileName].delete_Buffer();
+			MeshMap[FileName].load_MeshTxt(file.path().string());
 		}
 
 		std::cout << FileName << " : Mesh loaded" << std::endl;

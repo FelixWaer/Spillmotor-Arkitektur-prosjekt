@@ -46,6 +46,8 @@ void BasicSphere::tick(float deltaTime)
 	}
 	GameObject::tick(deltaTime);
 
+	BSpline.hide_BSpline(BasicSphere::HidingBSpline);
+
 	if (TriangulatedTerrain != nullptr)
 	{
 		float height = TriangulatedTerrain->get_TerrainHeight(this);

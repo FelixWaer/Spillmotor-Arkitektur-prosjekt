@@ -7,16 +7,10 @@ void SceneManager::begin_Scene()
 {
 	ActiveEngineCamera.init_GameObject();
 
-	PunktSkyModel.init_GameObject();
-	PunktSkyModel.set_GameObjectPosition(glm::vec3(0.f));
-
 	//ActiveEngineCamera.set_Terrain();
 
 	SplineSurface.init_GameObject();
 	SplineSurface.set_GameObjectPosition(glm::vec3(0.f, 50.f, 0.f));
-
-	SceneLight.init_GameObject();
-	SceneLight.set_GameObjectPosition(glm::vec3(0.f, 100.f, 0.f));
 
 	while (GameObjectsToBeAdded.empty() == false)
 	{
@@ -39,7 +33,11 @@ void SceneManager::tick_Scene(float deltaTime)
 		SceneGameObjects.emplace_back(addedGameObject);
 	}
 
-	check_Collision();
+	if (CollisionOn == true)
+	{
+		check_Collision();
+	}
+
 	tick_GameObjects(deltaTime);
 }
 
@@ -86,6 +84,11 @@ void SceneManager::add_ModelToScene(Model* model)
 void SceneManager::add_LightToScene(Light* light)
 {
 	SceneLights.emplace_back(light);
+}
+
+void SceneManager::set_CollisionCheck(bool collisionOn)
+{
+	CollisionOn = collisionOn;
 }
 
 void SceneManager::turnOff_DebugMode(bool turnOff)

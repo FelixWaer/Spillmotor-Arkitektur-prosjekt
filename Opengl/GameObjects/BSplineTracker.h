@@ -10,6 +10,7 @@ public:
 
 	void generate_BSpline();
 	void add_ControlPoint(glm::vec3& newControlPoint);
+	void hide_BSpline(bool hidingBSpline);
 private:
 	Model BSplineModel;
 
